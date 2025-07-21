@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nos Services - FRESS ACADEMY</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #000814;
+      color: #dbe9ff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Fond flouté bleu foncé */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
+      filter: brightness(0.3) blur(6px);
+      z-index: -1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 2.8rem;
+      color: #1e90ff;
+      text-shadow: 0 0 10px #1e90ff88;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: rgba(0,0,0,0.6);
+      border: 1px solid #1e90ff66;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(30,144,255,0.5);
+    }
+    .card h2 {
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: #d3e6ff;
+      line-height: 1.4;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .back-home a {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #1e90ff, #00509e);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 6px 12px rgba(30,144,255,0.5);
+      transition: all 0.3s ease;
+    }
+    .back-home a:hover {
+      background: linear-gradient(135deg, #00509e, #1e90ff);
+      box-shadow: 0 10px 20px rgba(30,144,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Nos Services</h1>
+  </div>
+
+  <section class="services">
+    <div class="card">
+      <h2>Création de site professionnel</h2>
+      <p>Conception et développement de sites vitrines ou boutiques en ligne modernes et responsives.</p>
+    </div>
+    <div class="card">
+      <h2>Consultation numérique</h2>
+      <p>Conseils personnalisés pour lancer ton business en ligne, automatiser ou améliorer ta présence web.</p>
+    </div>
+    <div class="card">
+      <h2>Optimisation Instagram & TikTok</h2>
+      <p>Stratégies de contenu, bio, hashtags et branding pour faire croître ton audience et convertir tes abonnés.</p>
+    </div>
+    <div class="card">
+      <h2>Mentorat & coaching digital</h2>
+      <p>Accompagnement sur mesure pour lancer ton activité, créer des offres ou vendre tes services efficacement.</p>
+    </div>
+    <div class="card">
+      <h2>Création d’identité visuelle</h2>
+      <p>Logo, couleurs, typographies, visuels cohérents pour améliorer ton image et ta crédibilité.</p>
+    </div>
+    <div class="card">
+    <h2>Création de logo pro(24h)</h2>
+    <p>Je crée un logo personnalisé pour ton entreprise ou ta marque,simple,élégant et prêt à utiliser sur tes réseaux sociaux ou ton site.</p>
+    </div>
+    <div class="card">
+    <h2>Création de CV professionnel</h2>
+    <p> Un CV clair,moderne et attractif pour décrocher plus d'entretiens. Tu reçois le fichier en PDF, prêt a imprimer ou envoyer</p>
+    </div>
+    <div class="card">
+    <h2>Rédaction d'un mini ebook sur mesure</h2>
+    <p>Tu veux offrir un ebook a ton audience? Je rédige un petit ebook de 5 à 10 pages avec design silple, prêt à vendre ou distribuer.</p>
+    </div>
+    <div class="card">
+    <h2>Création de boutique WhatsApp Business optimisée</h2>
+    <p>Je configure pour toi une boutique propre sur WhatsApp Business avec catalogue,images et descriptions.</p>
+    </div>
+    
+  </section>
+
+  <div class="back-home">
+    <a href="index.html">← Retour à l’accueil</a>
+  </div>
+</body>
+</html>

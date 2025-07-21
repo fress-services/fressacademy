@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - FRESS ACADEMY</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif;}
+    body {
+      background-color: #000814;
+      color: #dbe9ff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
+      filter: brightness(0.3) blur(6px);
+      z-index: -1;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      font-size: 2.6rem;
+      color: #1e90ff;
+      text-shadow: 0 0 10px #1e90ff88;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.6);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      background: #e9f0ff;
+      color: #000;
+      font-size: 1rem;
+    }
+    button {
+      background: linear-gradient(135deg, #1e90ff, #00509e);
+      color: white;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #00509e, #1e90ff);
+    }
+    .whatsapp-link {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .whatsapp-link a {
+      color: #25d366;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .back-home {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .back-home a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Contactez-nous</h1>
+  </div>
+
+  <form>
+    <label for="name">Nom</label>
+    <input type="text" id="name" placeholder="Votre nom">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Votre adresse email">
+
+    <label for="message">Message</label>
+    <textarea id="message" rows="5" placeholder="Votre message..."></textarea>
+
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <div class="whatsapp-link">
+    📱 <a href="https://wa.me/237686920482" target="_blank">Nous écrire sur WhatsApp</a>
+  </div>
+
+  <div class="back-home">
+    <a href="index.html">← Retour à l’accueil</a>
+  </div>
+</body>
+</html>
