@@ -1,84 +1,123 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services | FRESS ACADEMY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nos Services - FRESS ACADEMY</title>
   <style>
-    body { background-color: #0b0b0b; color: #f5f5f5; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-    header { background-color: #000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid gold; }
-    header h1 { color: gold; }
-    nav a { color: #f5f5f5; margin-left: 20px; text-decoration: none; }
-    nav a:hover { color: gold; }
-    .container { padding: 60px 20px; max-width: 1100px; margin: auto; }
-    h2 { text-align: center; color: gold; margin-bottom: 40px; }
-    .service { background-color: #1a1a1a; border: 1px solid gold; border-radius: 10px; padding: 20px; margin-bottom: 30px; transition: 0.3s; }
-    .service:hover { background-color: #222; transform: scale(1.02); }
-    .service h3 { color: gold; }
-    .service p { color: #ccc; }
-    .btn { display: inline-block; margin-top: 10px; background-color: gold; color: #000; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; }
-    .btn:hover { background-color: white; }
-    footer { background: #111; text-align: center; padding: 30px 20px; border-top: 1px solid gold; font-size: 14px; color: #888; }
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #000814;
+      color: #dbe9ff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Fond flouté bleu foncé */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
+      filter: brightness(0.3) blur(6px);
+      z-index: -1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 2.8rem;
+      color: #1e90ff;
+      text-shadow: 0 0 10px #1e90ff88;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: rgba(0,0,0,0.6);
+      border: 1px solid #1e90ff66;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(30,144,255,0.5);
+    }
+    .card h2 {
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: #d3e6ff;
+      line-height: 1.4;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .back-home a {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #1e90ff, #00509e);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 6px 12px rgba(30,144,255,0.5);
+      transition: all 0.3s ease;
+    }
+    .back-home a:hover {
+      background: linear-gradient(135deg, #00509e, #1e90ff);
+      box-shadow: 0 10px 20px rgba(30,144,255,0.7);
+    }
   </style>
 </head>
 <body>
-
-<header>
-  <h1>FRESS ACADEMY</h1>
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="formations.html">Formations</a>
-    <a href="services.html">Services</a>
-    <a href="packs.html">Astuces</a>
-    <a href="contact.html">Contact</a>
-    <a href="login.html">Connexion</a>
-  </nav>
-</header>
-
-<div class="container">
-  <h2>Nos Services Pro</h2>
-
-  <div class="service">
-    <h3>WebSprint</h3>
-    <p>Création rapide de sites vitrines modernes et responsives, parfaits pour présenter ton activité.</p>
-    <a class="btn" href="#">Commander</a>
+  <div class="header">
+    <h1>Nos Services</h1>
   </div>
 
-  <div class="service">
-    <h3>CodeBuild</h3>
-    <p>Développement d'applications web et mobile personnalisées selon ton cahier de charges.</p>
-    <a class="btn" href="#">Commander</a>
+  <section class="services">
+    <div class="card">
+      <h2>Création de site professionnel</h2>
+      <p>Conception et développement de sites vitrines ou boutiques en ligne modernes et responsives.</p>
+    </div>
+    <div class="card">
+      <h2>Consultation numérique</h2>
+      <p>Conseils personnalisés pour lancer ton business en ligne, automatiser ou améliorer ta présence web.</p>
+    </div>
+    <div class="card">
+      <h2>Optimisation Instagram & TikTok</h2>
+      <p>Stratégies de contenu, bio, hashtags et branding pour faire croître ton audience et convertir tes abonnés.</p>
+    </div>
+    <div class="card">
+      <h2>Mentorat & coaching digital</h2>
+      <p>Accompagnement sur mesure pour lancer ton activité, créer des offres ou vendre tes services efficacement.</p>
+    </div>
+    <div class="card">
+      <h2>Création d’identité visuelle</h2>
+      <p>Logo, couleurs, typographies, visuels cohérents pour améliorer ton image et ta crédibilité.</p>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html">← Retour à l’accueil</a>
   </div>
-
-  <div class="service">
-    <h3>ReBrand+</h3>
-    <p>Refonte, optimisation ou migration complète de ton site existant avec un nouveau design pro.</p>
-    <a class="btn" href="#">Commander</a>
-  </div>
-
-  <div class="service">
-    <h3>SecureBoost</h3>
-    <p>Amélioration de la sécurité, du référencement (SEO) et de la rapidité de ton site.</p>
-    <a class="btn" href="#">Commander</a>
-  </div>
-
-  <div class="service">
-    <h3>AutoPro Bot</h3>
-    <p>Création de bots Telegram, WhatsApp ou scripts automatiques (Python, Google Sheets, etc.).</p>
-    <a class="btn" href="#">Commander</a>
-  </div>
-
-  <div class="service">
-    <h3>DévExpress</h3>
-    <p>Service de développement express, idéal pour les projets urgents ou de dernière minute.</p>
-    <a class="btn" href="#">Commander</a>
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 FRESS ACADEMY. Tous droits réservés.
-</footer>
-
 </body>
 </html>

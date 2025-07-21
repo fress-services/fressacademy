@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nos Formations - FRESS ACADEMY</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #001a2e;
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom right, #001f3f, #000814);
+      opacity: 0.8;
+      z-index: -1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      color: #00bfff;
+      text-shadow: 0 0 15px #00bfffaa;
+    }
+
+    .formations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #0a2239;
+      border-left: 5px solid #00bfff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,191,255,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0,191,255,0.3);
+    }
+
+    .card h2 {
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #e0f5ff;
+      line-height: 1.5;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-home a {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #00bfff;
+      color: #000814;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,191,255,0.5);
+      transition: background 0.3s ease;
+    }
+
+    .back-home a:hover {
+      background: #0099cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Nos Formations</h1>
+  </div>
+
+  <section class="formations">
+    <div class="card">
+      <h2>Développement Web Moderne</h2>
+      <p>Apprenez à créer des sites responsives avec HTML, CSS, JavaScript, et les frameworks modernes.</p>
+    </div>
+    <div class="card">
+      <h2>Design Graphique & Branding</h2>
+      <p>Maîtrisez les outils de design (Canva, Photoshop) et créez des identités visuelles puissantes.</p>
+    </div>
+    <div class="card">
+      <h2>Marketing Digital & Réseaux Sociaux</h2>
+      <p>Optimisez votre présence en ligne avec des stratégies efficaces pour Instagram, TikTok, Facebook...</p>
+    </div>
+    <div class="card">
+      <h2>Monétisation & Freelance</h2>
+      <p>Découvrez comment vendre vos services, trouver des clients, et générer des revenus en ligne.</p>
+    </div>
+  </section>
+
+  <div class="back-home">
+    <a href="index.html">← Retour à l’accueil</a>
+  </div>
+</body>
+</html>
