@@ -1,0 +1,98 @@
+/* Design tokens : toutes les couleurs, tailles et espacements de l'application. */
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef1f4;
+  --color-text: #17202a;
+  --color-text-muted: #4f5b67;
+  --color-border: #d5dbe1;
+  --color-accent: #1f6f5c;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: #dcefe9;
+  --color-focus: #1a56db;
+
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.625rem;
+  --line-height: 1.5;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+
+  --touch-target: 2.75rem;
+  --nav-height: 4rem;
+  --sidebar-width: 15rem;
+  --content-max-width: 44rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #10151b;
+    --color-surface: #182029;
+    --color-surface-muted: #212b36;
+    --color-text: #e8edf2;
+    --color-text-muted: #a9b4bf;
+    --color-border: #33404d;
+    --color-accent: #5cc4a8;
+    --color-accent-contrast: #0b1f19;
+    --color-accent-soft: #1d3a33;
+    --color-focus: #8ab4ff;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height);
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

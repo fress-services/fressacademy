@@ -1,0 +1,18 @@
+# Décisions techniques
+
+Les décisions A1 à A13 et D1 à D6 du [plan](PLAN_V1.md) ont été validées le 19 octobre 2026.
+Le code vit à la racine de ce dépôt (et non dans `Kolo/app/` comme écrit dans le plan).
+
+## Lot 1
+
+| Décision                                                            | Raison                                                                                                                                                                                                                                           |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| React 19, React Router 7, Vite 8, TypeScript 5.9                    | Versions stables actuelles. TypeScript 5.9 plutôt que 7 car l'outil de lint (typescript-eslint) ne prend pas encore en charge la version 7. Le plan mentionnait React 18 : la 19 est la version stable courante, sans impact sur l'architecture. |
+| ESLint 9 (pas 10)                                                   | Le module d'accessibilité `eslint-plugin-jsx-a11y` ne prend pas encore en charge ESLint 10.                                                                                                                                                      |
+| Traductions maison typées (`src/i18n`)                              | Deux langues seulement. TypeScript refuse une clé manquante en anglais ; un test vérifie aussi que les clés et variables sont identiques.                                                                                                        |
+| Routes en anglais (`/activity`, `/debts`…)                          | Les adresses ne changent pas quand on change de langue.                                                                                                                                                                                          |
+| CSS Modules + variables CSS                                         | Pas de bibliothèque d'interface ; thème sombre via `prefers-color-scheme`.                                                                                                                                                                       |
+| Polices système                                                     | Aucune requête vers un service tiers (Google Fonts, etc.).                                                                                                                                                                                       |
+| Langue et thème non mémorisés au lot 1                              | Ils seront enregistrés avec les préférences dans IndexedDB au lot 2 (pas de `localStorage` en double).                                                                                                                                           |
+| `no-console` en erreur (sauf `console.error`)                       | Éviter qu'un montant ou une note finisse dans la console (cahier des charges §9.1).                                                                                                                                                              |
+| Tests de bout en bout sur la version de production (`vite preview`) | On teste ce qui sera réellement livré.                                                                                                                                                                                                           |

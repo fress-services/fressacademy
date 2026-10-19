@@ -1,0 +1,18 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  justify-self: start;
+  font-weight: 600;
+  text-decoration: none;
+}
