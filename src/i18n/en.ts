@@ -571,4 +571,12 @@ export const en: Messages = {
     title: 'Title',
     note: 'Note',
   },
+  pwa: {
+    updateAvailable: 'A new version of Kolo is ready. Finish what you are typing, then reload.',
+    reload: 'Reload',
+    later: 'Later',
+    registerError:
+      'Offline mode could not be turned on. Kolo works, but will need the Internet to open.',
+    close: 'Close',
+  },
 };

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './app/App';
 import { AppProviders } from './app/AppProviders';
+import { PwaUpdates } from './app/PwaUpdates';
 import { createLocalRepositories, openLocalDatabase } from './data/local/repositories';
 import './styles/global.css';
 
@@ -14,7 +15,8 @@ const openRepositories = async () => createLocalRepositories(await openLocalData
 createRoot(root).render(
   <StrictMode>
     <AppProviders openRepositories={openRepositories}>
-      <BrowserRouter>
+      <PwaUpdates />
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <App />
       </BrowserRouter>
     </AppProviders>

@@ -588,6 +588,15 @@ export const fr = {
     title: 'Libellé',
     note: 'Note',
   },
+  pwa: {
+    updateAvailable:
+      'Une nouvelle version de Kolo est prête. Terminez votre saisie en cours, puis rechargez.',
+    reload: 'Recharger',
+    later: 'Plus tard',
+    registerError:
+      'Le mode hors ligne n’a pas pu être activé. Kolo fonctionne, mais aura besoin d’Internet pour s’ouvrir.',
+    close: 'Fermer',
+  },
 };
 
 export type Messages = typeof fr;

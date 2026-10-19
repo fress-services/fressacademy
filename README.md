@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 6 (recherche, rapports, export et sauvegarde) terminé.** Le plan complet de la V1 est dans
+**État : lot 7 (installation, hors ligne, accessibilité) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -51,6 +51,37 @@ compte obligatoire.
   complète, restauration vérifiée avec aperçu et confirmation, effacement de toutes les données.
   Au premier lancement, « J'ai déjà une sauvegarde Kolo » récupère les données d'un autre appareil.
 
+- Application installable (manifeste, icônes) et utilisable hors ligne après le premier
+  chargement : un service worker garde les fichiers de l'application, les données restent dans
+  IndexedDB. Une nouvelle version s'annonce par un bandeau « Recharger », sans recharger seule.
+- Audit d'accessibilité automatique (axe, WCAG 2.2 A/AA) sur toutes les pages, thèmes sombre et
+  clair.
+
+## Installer Kolo sur un téléphone
+
+Une fois Kolo en ligne (voir « Mise en ligne »), ouvrir son adresse dans le navigateur du
+téléphone, puis :
+
+- Android (Chrome) : menu ⋮ > « Installer l'application » ou « Ajouter à l'écran d'accueil ».
+- iPhone (Safari) : bouton Partager > « Sur l'écran d'accueil ».
+
+Après la première ouverture, Kolo fonctionne sans Internet.
+
+## Mise en ligne (GitHub Pages)
+
+Le fichier `.github/workflows/deploy.yml` publie l'application à chaque fusion dans `main`
+(ou à la demande, onglet Actions > « Publier sur GitHub Pages »). Seuls les fichiers de
+l'application sont publiés, jamais de données.
+
+1. Une seule fois : sur GitHub, Settings > Pages > Source : « GitHub Actions ».
+2. Fusionner dans `main` : l'adresse est `https://<compte>.github.io/<dépôt>/`.
+
+Renommer le dépôt change l'adresse : les données déjà saisies restent liées à l'ancienne
+adresse dans le navigateur. Faire une sauvegarde avant, puis la restaurer à la nouvelle adresse.
+
+Pour tester localement sous un sous-chemin : `KOLO_BASE=/fressacademy/ npm run build` puis
+`KOLO_BASE=/fressacademy/ npm run preview`.
+
 ## Sauvegarder et restaurer ses données
 
 1. Plus > Sauvegarde et export > « Télécharger une sauvegarde » : un fichier
@@ -81,10 +112,15 @@ npm run format                     # mise en forme automatique (Prettier)
 npm run build                      # version de production dans dist/
 npm run preview                    # servir la version de production localement
 npm run check                      # tout vérifier d'un coup (lint, types, tests, build, e2e)
+npm run icons                      # régénérer les icônes PNG depuis public/*.svg (Chromium)
 ```
 
 Dans l'environnement cloud de Claude Code, Chromium est déjà installé : lancer les tests de bout
-en bout avec `KOLO_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
+en bout avec `KOLO_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e` (même variable pour
+`npm run icons`).
+
+Le service worker n'est actif que dans la version de production (`npm run build` puis
+`npm run preview`), pas avec `npm run dev`.
 
 ## Organisation du code
 

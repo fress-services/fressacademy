@@ -1,6 +1,6 @@
 # Limites connues
 
-Mise à jour : lot 6.
+Mise à jour : lot 7.
 
 - Restauration en remplacement seulement : pas de fusion de deux appareils (décision A7).
 - Le CSV est un export ; l'import d'un relevé bancaire CSV est prévu plus tard (roadmap V1.4).
@@ -29,8 +29,12 @@ Mise à jour : lot 6.
 - Le fuseau horaire est celui de l'appareil (décision A10), sans choix manuel.
 - Le catalogue des devises (`src/domain/currencies.ts`) doit être mis à jour à la main quand
   l'ISO 4217 change.
-- Pas encore installable ni utilisable hors ligne : PWA prévue au lot 7.
-- Pas encore hébergée en ligne : choix de l'hébergement au lot 7. Un hébergement statique devra
-  renvoyer `index.html` pour toutes les adresses (navigation côté client).
+- Hors ligne seulement après une première ouverture avec Internet.
+- Sur iPhone, l'installation se fait à la main (Partager > « Sur l'écran d'accueil ») : Safari
+  ne propose pas de bouton d'installation.
+- Les données sont liées à l'adresse du site : changer d'adresse (renommer le dépôt, changer
+  d'hébergeur) demande une sauvegarde puis une restauration.
+- La mise en ligne sur GitHub Pages demande d'activer Pages une fois dans les réglages du dépôt.
+- L'audit automatique d'accessibilité ne remplace pas un test au lecteur d'écran (prévu au lot 8).
 - Les tests automatiques simulent un téléphone (profil Pixel 7 dans Chromium) ; un test manuel
   sur un vrai téléphone reste nécessaire avant la sortie.

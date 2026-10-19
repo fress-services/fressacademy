@@ -18,15 +18,18 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e"
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "dexie": "4.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "react-router-dom": "7.18.4"
+    "react-router-dom": "7.18.4",
+    "workbox-window": "7.4.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "9.39.5",
     "@playwright/test": "1.64.1",
     "@testing-library/jest-dom": "7.0.1",
@@ -46,6 +49,8 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.71.2",
     "vite": "8.3.4",
-    "vitest": "5.0.5"
+    "vite-plugin-pwa": "2.0.0",
+    "vitest": "5.0.5",
+    "workbox-build": "7.4.1"
   }
 }
