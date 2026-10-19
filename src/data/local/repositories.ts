@@ -162,6 +162,45 @@ export function createLocalRepositories(
           throw isStorageFailure(error) ? toStorageError(error) : error;
         }
       }),
+    readAll: () =>
+      guard(() =>
+        db.transaction('r', db.tables, async () => ({
+          accounts: await db.accounts.toArray(),
+          categories: await db.categories.toArray(),
+          transactions: await db.transactions.toArray(),
+          budgets: await db.budgets.toArray(),
+          debts: await db.debts.toArray(),
+          debtRepayments: await db.debtRepayments.toArray(),
+          plannedExpenses: await db.plannedExpenses.toArray(),
+          goals: await db.goals.toArray(),
+          preferences: {
+            ...DEFAULT_PREFERENCES,
+            ...(await db.preferences.get('preferences')),
+            id: 'preferences' as const,
+          },
+        })),
+      ),
+    replaceAll: (snapshot) =>
+      notifier.atomic(() =>
+        guard(async () => {
+          await db.transaction('rw', db.tables, async () => {
+            // Le registre « meta » (date d'installation) n'appartient pas aux données exportées.
+            for (const table of db.tables) {
+              if (table !== db.meta) await table.clear();
+            }
+            await db.accounts.bulkAdd(snapshot.accounts);
+            await db.categories.bulkAdd(snapshot.categories);
+            await db.transactions.bulkAdd(snapshot.transactions);
+            await db.budgets.bulkAdd(snapshot.budgets);
+            await db.debts.bulkAdd(snapshot.debts);
+            await db.debtRepayments.bulkAdd(snapshot.debtRepayments);
+            await db.plannedExpenses.bulkAdd(snapshot.plannedExpenses);
+            await db.goals.bulkAdd(snapshot.goals);
+            await db.preferences.put({ ...snapshot.preferences, id: 'preferences' });
+          });
+          notifier.changed();
+        }),
+      ),
     schemaVersion: () => db.verno,
     subscribe: (listener) => notifier.subscribe(listener),
   };

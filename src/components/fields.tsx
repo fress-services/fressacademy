@@ -47,7 +47,7 @@ interface TextFieldProps {
   error?: string | undefined;
   maxLength?: number;
   inputMode?: 'text' | 'decimal';
-  type?: 'text' | 'date';
+  type?: 'text' | 'date' | 'search';
   autoComplete?: string;
   required?: boolean;
   disabled?: boolean;

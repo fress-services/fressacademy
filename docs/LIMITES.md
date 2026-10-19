@@ -1,8 +1,14 @@
 # Limites connues
 
-Mise à jour : lot 5.
+Mise à jour : lot 6.
 
-- Recherche, rapports, export et import arrivent au lot 6.
+- Restauration en remplacement seulement : pas de fusion de deux appareils (décision A7).
+- Le CSV est un export ; l'import d'un relevé bancaire CSV est prévu plus tard (roadmap V1.4).
+- Le CSV utilise la virgule et le point décimal : un tableur réglé en français peut demander de
+  choisir le séparateur à l'ouverture.
+- Le fichier de sauvegarde n'est pas chiffré : il faut le garder dans un endroit privé.
+- Le rappel de sauvegarde ne sait pas si le fichier téléchargé a bien été conservé.
+- Le rapport ne couvre qu'un mois à la fois, sans graphique de tendance (roadmap V1.3).
 - Un remboursement ne se modifie pas : on le supprime puis on le saisit à nouveau.
 - Le sens d'une dette (à récupérer ou à rembourser) ne change plus après sa création.
 - Supprimer une dette supprime aussi ses remboursements et les mouvements de compte liés.
@@ -16,7 +22,6 @@ Mise à jour : lot 5.
 - Pas de transfert entre deux devises (aucune conversion en V1).
 - Un solde initial ne peut pas être négatif ; un découvert se saisit par un ajustement.
 - Un ajustement de solde ne se modifie pas : on le supprime puis on en refait un.
-- Pas encore de recherche ni de filtre dans l'activité (prévu au lot 6).
 - Le champ date utilise le sélecteur du navigateur : son format suit la langue du navigateur,
   pas celle choisie dans Kolo.
 - Les données ne sont pas chiffrées sur l'appareil : une personne qui a accès à l'appareil

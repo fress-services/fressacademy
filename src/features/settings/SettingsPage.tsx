@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useData } from '../../app/data';
 import { Page } from '../../components/Page';
 import { toStorageError } from '../../data/errors';
@@ -63,6 +64,12 @@ export function SettingsPage() {
           </label>
         ))}
       </fieldset>
+      <section className={styles.group} aria-labelledby="settings-data">
+        <h2 id="settings-data" className={styles.legend}>
+          {t('settings.dataTitle')}
+        </h2>
+        <Link to="/more/backup">{t('settings.dataLink')}</Link>
+      </section>
       <p role="status" className={status.kind === 'error' ? styles.error : styles.note}>
         {status.kind === 'saved' && t('settings.saved')}
       </p>

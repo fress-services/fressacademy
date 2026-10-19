@@ -30,6 +30,19 @@ export interface EntityRepository<T extends EntityBase> {
   remove(id: Uuid): Promise<void>;
 }
 
+/** Toutes les données de l'utilisateur, telles qu'enregistrées (sauvegarde et restauration). */
+export interface DataSnapshot {
+  accounts: Account[];
+  categories: Category[];
+  transactions: Transaction[];
+  budgets: Budget[];
+  debts: Debt[];
+  debtRepayments: DebtRepayment[];
+  plannedExpenses: PlannedExpense[];
+  goals: SavingsGoal[];
+  preferences: Preferences;
+}
+
 export interface PreferencesRepository {
   /** Préférences enregistrées, complétées par les valeurs par défaut. */
   get(): Promise<Preferences>;
@@ -51,6 +64,13 @@ export interface KoloRepositories {
    * (paiement d'une dépense planifiée, remboursement lié à un compte, restauration…).
    */
   runAtomic<R>(work: () => Promise<R>): Promise<R>;
+  /** Lit toutes les données en une seule lecture cohérente. */
+  readAll(): Promise<DataSnapshot>;
+  /**
+   * Remplace toutes les données par celles fournies, identifiants et dates compris.
+   * Tout ou rien : en cas d'échec, les données précédentes restent intactes.
+   */
+  replaceAll(snapshot: DataSnapshot): Promise<void>;
   /** Version du schéma de la base locale (pour les sauvegardes et migrations). */
   schemaVersion(): number;
   /**

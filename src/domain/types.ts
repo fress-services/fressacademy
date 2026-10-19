@@ -149,6 +149,8 @@ export interface Preferences {
   firstDayOfWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7 | null;
   theme: ThemePreference;
   onboardingCompletedAt: IsoTimestamp | null;
+  /** Dernière sauvegarde JSON téléchargée, pour un rappel discret (cahier des charges §9.3). */
+  lastBackupAt: IsoTimestamp | null;
   updatedAt: IsoTimestamp | null;
 }
 
@@ -160,5 +162,6 @@ export const DEFAULT_PREFERENCES: Preferences = {
   firstDayOfWeek: null,
   theme: 'dark',
   onboardingCompletedAt: null,
+  lastBackupAt: null,
   updatedAt: null,
 };

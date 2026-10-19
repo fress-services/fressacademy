@@ -16,6 +16,7 @@ import type { AccountInput } from '../../services/accounts';
 import { ValidationError } from '../../services/errors';
 import { completeOnboarding } from '../../services/onboarding';
 import { AccountForm } from '../accounts/AccountForm';
+import { Restore } from '../backup/BackupPage';
 import { useCurrencyOptions } from '../shared/useCurrencyOptions';
 import styles from './OnboardingPage.module.css';
 
@@ -42,6 +43,7 @@ function OnboardingPage() {
   const { repositories, preferences } = useData();
   const currencyOptions = useCurrencyOptions();
   const [step, setStep] = useState(1);
+  const [restoring, setRestoring] = useState(false);
   const [suggested] = useState(browserSuggestion);
   const [currency, setCurrency] = useState<string>(preferences.defaultCurrency ?? suggested ?? '');
   const [currencyError, setCurrencyError] = useState<string | undefined>();
@@ -90,6 +92,18 @@ function OnboardingPage() {
     <p className={styles.step}>{t('onboarding.step', { current: step, total: TOTAL_STEPS })}</p>
   );
 
+  if (restoring) {
+    // Nouvel appareil : récupérer une sauvegarde au lieu de tout ressaisir (§5.11).
+    return (
+      <Page title={t('onboarding.restoreTitle')}>
+        <Restore fresh />
+        <Button variant="ghost" onClick={() => setRestoring(false)}>
+          {t('common.back')}
+        </Button>
+      </Page>
+    );
+  }
+
   if (step === 1) {
     return (
       <Page title={t('onboarding.title')}>
@@ -111,6 +125,9 @@ function OnboardingPage() {
         />
         <Button block onClick={() => setStep(2)}>
           {t('onboarding.next')}
+        </Button>
+        <Button block variant="ghost" onClick={() => setRestoring(true)}>
+          {t('onboarding.restore')}
         </Button>
       </Page>
     );

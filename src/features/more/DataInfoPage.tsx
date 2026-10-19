@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Page } from '../../components/Page';
 import {
   checkPersistentStorage,
@@ -35,6 +36,7 @@ export function DataInfoPage() {
         <p>{t('data.where')}</p>
         <p>{t('data.risk')}</p>
         <p>{t('data.privacy')}</p>
+        <Link to="/more/backup">{t('data.backupLink')}</Link>
       </div>
       <section className={styles.text} aria-labelledby="protection-title">
         <h2 id="protection-title" className={styles.subtitle}>

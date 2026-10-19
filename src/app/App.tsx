@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AccountEditPage } from '../features/accounts/AccountEditPage';
 import { AccountsPage } from '../features/accounts/AccountsPage';
 import { ActivityPage } from '../features/transactions/ActivityPage';
+import { BackupPage } from '../features/backup/BackupPage';
 import { BudgetPage } from '../features/budget/BudgetPage';
 import { CategoriesPage } from '../features/categories/CategoriesPage';
 import { DashboardPage } from '../features/dashboard/DashboardPage';
@@ -11,6 +12,7 @@ import { GoalEditPage } from '../features/goals/GoalEditPage';
 import { GoalsPage } from '../features/goals/GoalsPage';
 import { PlannedEditPage } from '../features/planned/PlannedEditPage';
 import { PlannedPage } from '../features/planned/PlannedPage';
+import { ReportsPage } from '../features/reports/ReportsPage';
 import { DataInfoPage } from '../features/more/DataInfoPage';
 import { MorePage } from '../features/more/MorePage';
 import { NotFoundPage } from '../features/more/NotFoundPage';
@@ -49,6 +51,8 @@ export function App() {
         <Route path="more/goals" element={<GoalsPage />} />
         <Route path="more/goals/new" element={<GoalEditPage />} />
         <Route path="more/goals/:id" element={<GoalEditPage />} />
+        <Route path="more/reports" element={<ReportsPage />} />
+        <Route path="more/backup" element={<BackupPage />} />
         <Route path="more/settings" element={<SettingsPage />} />
         <Route path="more/data" element={<DataInfoPage />} />
         <Route path="*" element={<NotFoundPage />} />

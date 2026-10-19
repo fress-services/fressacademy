@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ButtonLink } from '../../components/Button';
 import { EmptyState } from '../../components/EmptyState';
+import { TextField } from '../../components/fields';
 import { Page } from '../../components/Page';
 import { Tabs } from '../../components/Tabs';
 import { debtSummary } from '../../domain/debts';
 import { toLocalDate } from '../../domain/dates';
+import { matchesQuery } from '../../domain/search';
 import type { DebtDirection } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { useFormat } from '../../i18n/format';
@@ -21,6 +23,7 @@ export function DebtsPage() {
   const [direction, setDirection] = useState<DebtDirection>(
     params.get('direction') === 'payable' ? 'payable' : 'receivable',
   );
+  const [query, setQuery] = useState('');
   const ledger = useLedger();
 
   return (
@@ -28,28 +31,50 @@ export function DebtsPage() {
       <FlashNotice />
       <Loaded state={ledger}>
         {(data) => (
-          <Tabs<DebtDirection>
-            label={t('debts.tabsLabel')}
-            selected={direction}
-            onSelect={setDirection}
-            items={(['receivable', 'payable'] as const).map((key) => ({
-              key,
-              label: t(`debts.${key}`),
-              content: <DebtList ledger={data} direction={key} />,
-            }))}
-          />
+          <>
+            {data.debts.length > 0 && (
+              <TextField
+                type="search"
+                label={t('debts.search')}
+                hint={t('debts.searchHint')}
+                value={query}
+                onChange={setQuery}
+                maxLength={100}
+                autoComplete="off"
+              />
+            )}
+            <Tabs<DebtDirection>
+              label={t('debts.tabsLabel')}
+              selected={direction}
+              onSelect={setDirection}
+              items={(['receivable', 'payable'] as const).map((key) => ({
+                key,
+                label: t(`debts.${key}`),
+                content: <DebtList ledger={data} direction={key} query={query} />,
+              }))}
+            />
+          </>
         )}
       </Loaded>
     </Page>
   );
 }
 
-function DebtList({ ledger, direction }: { ledger: Ledger; direction: DebtDirection }) {
+function DebtList({
+  ledger,
+  direction,
+  query,
+}: {
+  ledger: Ledger;
+  direction: DebtDirection;
+  query: string;
+}) {
   const { t } = useI18n();
   const format = useFormat();
   const today = toLocalDate(new Date());
-  const rows = ledger.debts
-    .filter((debt) => debt.direction === direction)
+  const ofDirection = ledger.debts.filter((debt) => debt.direction === direction);
+  const rows = ofDirection
+    .filter((debt) => matchesQuery(query, [debt.contactLabel, debt.note]))
     .map((debt) => ({ debt, summary: debtSummary(debt, ledger.debtRepayments, today) }))
     .sort(
       (a, b) =>
@@ -90,7 +115,7 @@ function DebtList({ ledger, direction }: { ledger: Ledger; direction: DebtDirect
     </ul>
   );
 
-  if (rows.length === 0) {
+  if (ofDirection.length === 0) {
     return (
       <EmptyState
         title={t(
@@ -100,6 +125,15 @@ function DebtList({ ledger, direction }: { ledger: Ledger; direction: DebtDirect
       >
         {t(direction === 'receivable' ? 'debts.emptyReceivableBody' : 'debts.emptyPayableBody')}
       </EmptyState>
+    );
+  }
+
+  if (rows.length === 0) {
+    return (
+      <div className={styles.section}>
+        <p className={styles.muted}>{t('debts.noResults')}</p>
+        {add}
+      </div>
     );
   }
 

@@ -9,6 +9,8 @@ const ENTRIES: readonly { to: string; label: MessageKey; hint: MessageKey }[] = 
   { to: '/more/categories', label: 'more.categories', hint: 'more.categoriesHint' },
   { to: '/more/planned', label: 'more.planned', hint: 'more.plannedHint' },
   { to: '/more/goals', label: 'more.goals', hint: 'more.goalsHint' },
+  { to: '/more/reports', label: 'more.reports', hint: 'more.reportsHint' },
+  { to: '/more/backup', label: 'more.backup', hint: 'more.backupHint' },
   { to: '/more/settings', label: 'more.settings', hint: 'more.settingsHint' },
   { to: '/more/data', label: 'more.data', hint: 'more.dataHint' },
 ];

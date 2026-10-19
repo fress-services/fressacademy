@@ -13,6 +13,8 @@ const PAGES = [
   { path: '/debts/new', title: 'Nouvelle dette' },
   { path: '/more/planned', title: 'Dépenses prévues' },
   { path: '/more/goals', title: 'Objectifs d’épargne' },
+  { path: '/more/reports', title: 'Rapports' },
+  { path: '/more/backup', title: 'Sauvegarde et export' },
   { path: '/more/settings', title: 'Paramètres' },
   { path: '/more/data', title: 'Vos données' },
 ];

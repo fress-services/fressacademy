@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useData } from '../../app/data';
 import { Link } from 'react-router-dom';
 import { Button, ButtonLink } from '../../components/Button';
 import { Card } from '../../components/Card';
@@ -27,8 +28,19 @@ export function DashboardPage() {
   );
 }
 
+/** Invitation discrète (§9.3) : après quelques opérations, sans sauvegarde depuis 30 jours. */
+const REMINDER_MIN_TRANSACTIONS = 10;
+const REMINDER_DAYS = 30;
+
+function needsBackupReminder(transactionCount: number, lastBackupAt: string | null): boolean {
+  if (transactionCount < REMINDER_MIN_TRANSACTIONS) return false;
+  if (!lastBackupAt) return true;
+  return Date.now() - Date.parse(lastBackupAt) > REMINDER_DAYS * 24 * 60 * 60 * 1000;
+}
+
 function Dashboard({ ledger }: { ledger: Ledger }) {
   const { t } = useI18n();
+  const { preferences } = useData();
   const format = useFormat();
   const today = toLocalDate(new Date());
   const currentMonth = monthOf(today);
@@ -108,6 +120,15 @@ function Dashboard({ ledger }: { ledger: Ledger }) {
       </Card>
 
       <UpcomingCard ledger={ledger} today={today} />
+
+      {needsBackupReminder(transactions.length, preferences.lastBackupAt) && (
+        <p className={styles.notice}>
+          {t('home.backupReminder')}{' '}
+          <Link to="/more/backup" className={styles.link}>
+            {t('home.backupReminderAction')}
+          </Link>
+        </p>
+      )}
 
       <section className={styles.month} aria-labelledby="month-title">
         <div className={styles.monthHeader}>

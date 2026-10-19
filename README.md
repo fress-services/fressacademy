@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 5 (dettes, dépenses prévues, objectifs) terminé.** Le plan complet de la V1 est dans
+**État : lot 6 (recherche, rapports, export et sauvegarde) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -43,6 +43,25 @@ compte obligatoire.
   dépense réelle, même en cas de double appui.
 - Objectifs d'épargne (Plus) : progression saisie à la main, sans effet sur les soldes.
 - Accueil : bloc « À venir » avec les prochaines dépenses prévues et les dettes ouvertes.
+- Recherche (sans accent ni majuscule) dans l'activité et les dettes ; filtres par type, compte,
+  catégorie, devise et période, gardés dans l'adresse de la page.
+- Rapports (Plus) : revenus, dépenses réelles, différence, dépenses par catégorie et
+  comparaison avec le mois précédent, par devise.
+- Sauvegarde et export (Plus, et lien dans Paramètres) : CSV des opérations, sauvegarde JSON
+  complète, restauration vérifiée avec aperçu et confirmation, effacement de toutes les données.
+  Au premier lancement, « J'ai déjà une sauvegarde Kolo » récupère les données d'un autre appareil.
+
+## Sauvegarder et restaurer ses données
+
+1. Plus > Sauvegarde et export > « Télécharger une sauvegarde » : un fichier
+   `kolo-sauvegarde-AAAA-MM-JJ.json`. Il contient vos données en clair : gardez-le en lieu privé.
+2. Sur le nouvel appareil (ou après un effacement), au premier lancement : « J'ai déjà une
+   sauvegarde Kolo », choisir le fichier, vérifier l'aperçu, puis « Restaurer ce fichier ».
+3. Sur un appareil déjà utilisé, la restauration **remplace** toutes les données (pas de fusion) :
+   Kolo propose d'abord une sauvegarde de secours et demande une confirmation.
+
+Un fichier abîmé, étranger, trop gros (plus de 20 Mo) ou venant d'une version plus récente de
+Kolo est refusé sans rien modifier.
 
 ## Prérequis
 
@@ -74,8 +93,9 @@ src/
   app/         démarrage, ouverture des données, routes, mise en page et navigation
   components/  composants réutilisables (page, champs de formulaire, boutons, cartes, messages)
   domain/      types et règles métier purs : argent, devises, dates (aucun accès navigateur)
-  data/        contrats des repositories, base locale Dexie, migrations, erreurs de stockage
-  services/    opérations métier (comptes, catégories, opérations, premier lancement)
+  data/        contrats des repositories, base locale Dexie, migrations, erreurs de stockage,
+               format CSV et sauvegarde JSON (data/backup)
+  services/    opérations métier (comptes, catégories, opérations, dettes, sauvegarde…)
   features/    un dossier par écran (onboarding, dashboard, accounts, categories, transactions…)
   i18n/        textes FR/EN et traduction
   styles/      design tokens et styles globaux

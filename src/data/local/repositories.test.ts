@@ -166,6 +166,7 @@ describe('préférences', () => {
       firstDayOfWeek: null,
       theme: 'dark',
       onboardingCompletedAt: null,
+      lastBackupAt: null,
       updatedAt: null,
     });
   });
@@ -249,5 +250,33 @@ describe('notifications de changement', () => {
     // vérifie surtout que les données sont intactes.
     expect(await repos.accounts.list()).toEqual([]);
     expect(calls).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('lecture complète et remplacement', () => {
+  it('replaceAll remplace tout en gardant identifiants et dates', async () => {
+    const repos = createLocalRepositories(track(newTestDatabase()), fakeEnvironment());
+    await repos.accounts.create(cashAccount);
+    const snapshot = await repos.readAll();
+    const kept = { ...snapshot.accounts[0]!, id: 'gardé', name: 'Banque' };
+
+    let notified = 0;
+    repos.subscribe(() => (notified += 1));
+    await repos.replaceAll({ ...snapshot, accounts: [kept] });
+
+    expect(await repos.accounts.list()).toEqual([kept]);
+    expect(notified).toBe(1);
+  });
+
+  it('replaceAll est tout ou rien : un échec laisse les données intactes', async () => {
+    const repos = createLocalRepositories(track(newTestDatabase()), fakeEnvironment());
+    await repos.accounts.create(cashAccount);
+    const before = await repos.readAll();
+    const duplicate = { ...before.accounts[0]!, id: 'double' };
+
+    await expect(
+      repos.replaceAll({ ...before, accounts: [duplicate, duplicate] }),
+    ).rejects.toBeInstanceOf(StorageError);
+    expect(await repos.readAll()).toEqual(before);
   });
 });
