@@ -4,6 +4,7 @@ import type { KoloRepositories } from '../data/repositories/types';
 import type { Preferences } from '../domain/types';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { detectLanguage, type Language } from '../i18n/languages';
+import { ensureSystemCategories } from '../services/categories';
 import { DataContext, type DataValue } from './data';
 import { StartupError } from './StartupError';
 
@@ -31,6 +32,7 @@ export function AppProviders({ openRepositories, children }: Props) {
     (async () => {
       try {
         const repositories = await openRepositories();
+        await ensureSystemCategories(repositories);
         const preferences = await repositories.preferences.get();
         if (!cancelled) setState({ status: 'ready', repositories, preferences });
       } catch (error) {
@@ -44,6 +46,20 @@ export function AppProviders({ openRepositories, children }: Props) {
 
   const repositories = state.status === 'ready' ? state.repositories : null;
   const preferences = state.status === 'ready' ? state.preferences : null;
+
+  // Relit les préférences après chaque écriture (par exemple à la fin du premier lancement).
+  useEffect(() => {
+    if (!repositories) return;
+    return repositories.subscribe(() => {
+      repositories.preferences.get().then(
+        (fresh) =>
+          setState((current) =>
+            current.status === 'ready' ? { ...current, preferences: fresh } : current,
+          ),
+        () => {},
+      );
+    });
+  }, [repositories]);
 
   const updatePreferences = useCallback<DataValue['updatePreferences']>(
     async (patch) => {

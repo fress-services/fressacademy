@@ -37,14 +37,14 @@ describe('navigation principale', () => {
 
   it('chaque onglet affiche un état vide explicatif', async () => {
     const cases: [string, string][] = [
-      ['/', 'Bienvenue sur Kolo'],
+      ['/', 'Commencez par un compte'],
       ['/activity', 'Aucune opération pour l’instant'],
       ['/budget', 'Aucune limite de dépenses'],
       ['/debts', 'Rien à récupérer'],
     ];
     for (const [path, title] of cases) {
       const { unmount } = await renderApp(path);
-      expect(screen.getByRole('heading', { level: 2, name: title })).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { level: 2, name: title })).toBeInTheDocument();
       unmount();
     }
   });

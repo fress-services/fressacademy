@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 2 (données locales) terminé.** Le plan complet de la V1 est dans
+**État : lot 3 (comptes, catégories, opérations) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -21,9 +21,18 @@ compte obligatoire.
 - Langue et thème mémorisés sur l'appareil (base locale IndexedDB).
 - Page « Vos données » : où sont conservées les données, leurs limites, et demande de protection
   contre l'effacement automatique par le navigateur.
-- Modèle de données complet de la V1 (comptes, opérations, budget, dettes, dépenses planifiées,
-  objectifs) avec calculs d'argent exacts, catalogue des devises ISO 4217 et dates locales.
-  Les écrans de saisie arrivent au lot 3.
+- Premier lancement guidé : langue, devise principale (suggérée d'après le navigateur), premier
+  compte facultatif.
+- Comptes (Plus > Comptes) : création, modification, solde initial, ajustement de solde par une
+  opération datée, archivage, suppression d'un compte inutilisé. Devise verrouillée dès qu'une
+  opération utilise le compte.
+- Catégories (Plus > Catégories) : 16 catégories fournies, catégories personnelles à créer,
+  renommer et archiver.
+- Opérations : dépense, revenu, transfert entre comptes de même devise ; ajout, modification,
+  suppression ; liste « Activité » groupée par date.
+- Accueil : soldes par devise (jamais additionnés entre devises) et ajout rapide.
+- Modèle de données complet de la V1 avec calculs d'argent exacts, catalogue des devises
+  ISO 4217 et dates locales. Budget, dettes et dépenses planifiées arrivent aux lots suivants.
 
 ## Prérequis
 
@@ -53,10 +62,11 @@ en bout avec `KOLO_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
 ```
 src/
   app/         démarrage, ouverture des données, routes, mise en page et navigation
-  components/  composants réutilisables (page, état vide, onglets, icônes)
+  components/  composants réutilisables (page, champs de formulaire, boutons, cartes, messages)
   domain/      types et règles métier purs : argent, devises, dates (aucun accès navigateur)
   data/        contrats des repositories, base locale Dexie, migrations, erreurs de stockage
-  features/    un dossier par écran (dashboard, transactions, budget, debts, more, settings)
+  services/    opérations métier (comptes, catégories, opérations, premier lancement)
+  features/    un dossier par écran (onboarding, dashboard, accounts, categories, transactions…)
   i18n/        textes FR/EN et traduction
   styles/      design tokens et styles globaux
   test/        aides de test
@@ -65,7 +75,8 @@ docs/          plan, décisions et limites connues
 ```
 
 Règles : les calculs d'argent vont dans `src/domain/` (fonctions pures testées), l'accès aux
-données dans `src/data/` ; les écrans ne lisent jamais la base directement. Les montants sont
+données dans `src/data/`, les règles d'écriture (validation, verrous) dans `src/services/` ; les
+écrans ne lisent jamais la base directement. Les montants sont
 des entiers en unités mineures (12,50 EUR = 1250), jamais des nombres à virgule.
 
 Changer le schéma de la base : voir le commentaire en tête de `src/data/local/db.ts`.

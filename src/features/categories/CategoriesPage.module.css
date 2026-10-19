@@ -1,0 +1,72 @@
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+}
+
+.row + .row {
+  border-top: 1px solid var(--color-border);
+}
+
+.archived .name {
+  color: var(--color-text-muted);
+}
+
+.label {
+  display: grid;
+  min-width: 0;
+}
+
+.name {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.renameForm {
+  display: grid;
+  flex: 1;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+.addForm {
+  display: grid;
+  gap: var(--space-2);
+}

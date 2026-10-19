@@ -1,6 +1,6 @@
 import type { Table } from 'dexie';
 import { DEFAULT_PREFERENCES, type EntityBase, type Preferences } from '../../domain/types';
-import { StorageError, toStorageError } from '../errors';
+import { isStorageFailure, StorageError, toStorageError } from '../errors';
 import type {
   EntityPatch,
   EntityRepository,
@@ -13,6 +13,40 @@ import { KoloDatabase, SCHEMA_VERSION } from './db';
 export interface RepositoryEnvironment {
   now: () => Date;
   newId: () => string;
+}
+
+/** Prévient les abonnés après chaque écriture, ou à la fin de l'écriture atomique en cours. */
+class ChangeNotifier {
+  private listeners = new Set<() => void>();
+  private atomicDepth = 0;
+  private pending = false;
+
+  subscribe(listener: () => void): () => void {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  changed(): void {
+    if (this.atomicDepth > 0) this.pending = true;
+    else this.emit();
+  }
+
+  async atomic<R>(work: () => Promise<R>): Promise<R> {
+    this.atomicDepth += 1;
+    try {
+      return await work();
+    } finally {
+      this.atomicDepth -= 1;
+      if (this.atomicDepth === 0 && this.pending) {
+        this.pending = false;
+        this.emit();
+      }
+    }
+  }
+
+  private emit(): void {
+    for (const listener of [...this.listeners]) listener();
+  }
 }
 
 const defaultEnvironment: RepositoryEnvironment = {
@@ -31,6 +65,7 @@ async function guard<R>(work: () => Promise<R>): Promise<R> {
 function entityRepository<T extends EntityBase>(
   table: Table<T, string>,
   env: RepositoryEnvironment,
+  notifier: ChangeNotifier,
 ): EntityRepository<T> {
   return {
     getById: (id) => guard(() => table.get(id)),
@@ -45,6 +80,7 @@ function entityRepository<T extends EntityBase>(
           updatedAt: timestamp,
         } as T;
         await table.add(entity);
+        notifier.changed();
         return entity;
       }),
     update: (id, patch: EntityPatch<T>) =>
@@ -60,15 +96,21 @@ function entityRepository<T extends EntityBase>(
           updatedAt: env.now().toISOString(),
         } as T;
         await table.put(updated);
+        notifier.changed();
         return updated;
       }),
-    remove: (id) => guard(() => table.delete(id)),
+    remove: (id) =>
+      guard(async () => {
+        await table.delete(id);
+        notifier.changed();
+      }),
   };
 }
 
 function preferencesRepository(
   db: KoloDatabase,
   env: RepositoryEnvironment,
+  notifier: ChangeNotifier,
 ): PreferencesRepository {
   async function read(): Promise<Preferences> {
     const stored = await db.preferences.get('preferences');
@@ -78,18 +120,20 @@ function preferencesRepository(
   return {
     get: () => guard(read),
     update: (patch) =>
-      guard(() =>
-        db.transaction('rw', db.preferences, async () => {
-          const updated: Preferences = {
+      guard(async () => {
+        const updated = await db.transaction('rw', db.preferences, async () => {
+          const merged: Preferences = {
             ...(await read()),
             ...patch,
             id: 'preferences',
             updatedAt: env.now().toISOString(),
           };
-          await db.preferences.put(updated);
-          return updated;
-        }),
-      ),
+          await db.preferences.put(merged);
+          return merged;
+        });
+        notifier.changed();
+        return updated;
+      }),
   };
 }
 
@@ -98,18 +142,28 @@ export function createLocalRepositories(
   db: KoloDatabase,
   env: RepositoryEnvironment = defaultEnvironment,
 ): KoloRepositories {
+  const notifier = new ChangeNotifier();
   return {
-    accounts: entityRepository(db.accounts, env),
-    categories: entityRepository(db.categories, env),
-    transactions: entityRepository(db.transactions, env),
-    budgets: entityRepository(db.budgets, env),
-    debts: entityRepository(db.debts, env),
-    debtRepayments: entityRepository(db.debtRepayments, env),
-    plannedExpenses: entityRepository(db.plannedExpenses, env),
-    goals: entityRepository(db.goals, env),
-    preferences: preferencesRepository(db, env),
-    runAtomic: (work) => guard(() => db.transaction('rw', db.tables, work)),
+    accounts: entityRepository(db.accounts, env, notifier),
+    categories: entityRepository(db.categories, env, notifier),
+    transactions: entityRepository(db.transactions, env, notifier),
+    budgets: entityRepository(db.budgets, env, notifier),
+    debts: entityRepository(db.debts, env, notifier),
+    debtRepayments: entityRepository(db.debtRepayments, env, notifier),
+    plannedExpenses: entityRepository(db.plannedExpenses, env, notifier),
+    goals: entityRepository(db.goals, env, notifier),
+    preferences: preferencesRepository(db, env, notifier),
+    runAtomic: (work) =>
+      notifier.atomic(async () => {
+        try {
+          return await db.transaction('rw', db.tables, work);
+        } catch (error) {
+          // Une règle métier refusée (ValidationError…) remonte telle quelle ; tout est annulé.
+          throw isStorageFailure(error) ? toStorageError(error) : error;
+        }
+      }),
     schemaVersion: () => db.verno,
+    subscribe: (listener) => notifier.subscribe(listener),
   };
 }
 

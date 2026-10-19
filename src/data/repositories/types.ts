@@ -53,4 +53,9 @@ export interface KoloRepositories {
   runAtomic<R>(work: () => Promise<R>): Promise<R>;
   /** Version du schéma de la base locale (pour les sauvegardes et migrations). */
   schemaVersion(): number;
+  /**
+   * Prévient l'interface après chaque écriture réussie (après la fin d'une écriture atomique),
+   * pour qu'elle relise les données. Renvoie la fonction de désabonnement.
+   */
+  subscribe(listener: () => void): () => void;
 }

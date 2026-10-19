@@ -30,3 +30,43 @@
   border-radius: var(--radius-md);
   background: var(--color-accent-soft);
 }
+
+.totals {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.total {
+  display: grid;
+}
+
+.amount {
+  font-size: var(--font-size-amount);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.quick {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.quickTitle {
+  font-size: var(--font-size-md);
+}
+
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.quickActions > * {
+  padding-inline: var(--space-2);
+}

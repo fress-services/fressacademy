@@ -26,6 +26,23 @@ const CODES_BY_ERROR_NAME: Record<string, StorageErrorCode> = {
   NotFoundError: 'notFound',
 };
 
+/** Vrai si l'erreur vient du stockage (IndexedDB, Dexie, navigateur) et non d'une règle métier. */
+export function isStorageFailure(error: unknown): boolean {
+  if (error instanceof StorageError) return true;
+  if (typeof DOMException !== 'undefined' && error instanceof DOMException) return true;
+  const name = (error as { name?: unknown } | null)?.name;
+  // Les erreurs Dexie portent un nom en « …Error » listé ici ou une erreur interne « inner ».
+  return (
+    (typeof name === 'string' && name in CODES_BY_ERROR_NAME) ||
+    (typeof error === 'object' && error !== null && 'inner' in error) ||
+    name === 'DexieError' ||
+    name === 'AbortError' ||
+    name === 'ConstraintError' ||
+    name === 'DataError' ||
+    name === 'UnknownError'
+  );
+}
+
 /** Convertit n'importe quelle erreur (Dexie, IndexedDB, navigateur) en StorageError. */
 export function toStorageError(error: unknown): StorageError {
   if (error instanceof StorageError) return error;

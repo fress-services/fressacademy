@@ -38,4 +38,19 @@ Le code vit à la racine de ce dépôt (et non dans `Kolo/app/` comme écrit dan
 | Préférences : un enregistrement unique complété par des valeurs par défaut                    | Un champ ajouté plus tard n'exige pas de migration.                                                                                               |
 | Protection contre l'effacement (`navigator.storage.persist`) demandée seulement sur bouton    | Firefox affiche une autorisation : on ne la déclenche pas au démarrage.                                                                           |
 | `fake-indexeddb` pour les tests                                                               | Teste la vraie couche Dexie sans navigateur.                                                                                                      |
-| `dexie-react-hooks` reporté au lot 3                                                          | Pas encore de liste à afficher en direct.                                                                                                         |
+| `dexie-react-hooks` non utilisé (voir lot 3)                                                  | Remplacé par un abonnement maison aux écritures.                                                                                                  |
+
+## Lot 3
+
+| Décision                                                                                                                  | Raison                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Couche `src/services/` : chaque écriture passe par un service qui valide et lève `ValidationError` ou `BusinessError`     | Les règles (§7.1) s'appliquent même si un écran les oublie ; les messages restent traduisibles.          |
+| Les écrans relisent les données après chaque écriture (`subscribe` + `useRepositoryQuery`) au lieu de `dexie-react-hooks` | Soldes et totaux toujours recalculés, sans dépendance de plus, et testable avec n'importe quel stockage. |
+| Premier lancement en 3 étapes (langue, devise, compte facultatif) qui remplace l'application tant qu'il n'est pas terminé | §4.1. L'étape budget sera ajoutée au lot 4. Rien n'est marqué terminé avant la dernière étape.           |
+| Devise suggérée d'après la région du navigateur (fr-CM → XAF), jamais imposée ; sans région, aucune suggestion            | On ne suppose ni pays ni devise.                                                                         |
+| Catégorie obligatoire pour revenus et dépenses, pré-remplie avec « Autres dépenses » / « Autres revenus »                 | Statistiques cohérentes sans ralentir la saisie.                                                         |
+| Devise d'une opération = devise du compte, jamais saisie                                                                  | Pas de conversion en V1.                                                                                 |
+| Devise d'un compte verrouillée dès qu'une opération l'utilise                                                             | Changer la devise fausserait l'historique.                                                               |
+| Compte supprimable seulement s'il n'est pas utilisé ; sinon archivage (décision A11)                                      | Conserver l'historique.                                                                                  |
+| Ajustement : supprimable, non modifiable ; règlement de dette : géré depuis la dette (A8)                                 | Éviter des incohérences entre l'opération et ce qui l'a créée.                                           |
+| Suppression en deux temps (bouton puis « Oui, supprimer »)                                                                | Pas de fenêtre de confirmation native, accessible au clavier et au lecteur d'écran.                      |

@@ -5,6 +5,8 @@ import type { MessageKey } from '../../i18n/translate';
 import styles from './MorePage.module.css';
 
 const ENTRIES: readonly { to: string; label: MessageKey; hint: MessageKey }[] = [
+  { to: '/more/accounts', label: 'more.accounts', hint: 'more.accountsHint' },
+  { to: '/more/categories', label: 'more.categories', hint: 'more.categoriesHint' },
   { to: '/more/settings', label: 'more.settings', hint: 'more.settingsHint' },
   { to: '/more/data', label: 'more.data', hint: 'more.dataHint' },
 ];

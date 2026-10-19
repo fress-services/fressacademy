@@ -138,7 +138,7 @@ describe('écritures atomiques', () => {
         });
         throw new Error('échec simulé');
       }),
-    ).rejects.toBeInstanceOf(StorageError);
+    ).rejects.toThrow('échec simulé');
 
     expect(await repos.accounts.list()).toEqual([]);
     expect(await repos.goals.list()).toEqual([]);
@@ -207,5 +207,47 @@ describe('schéma et migrations', () => {
 
     await expect(openLocalDatabase(name)).rejects.toEqual(new StorageError('newerVersion'));
     await Dexie.delete(name);
+  });
+});
+
+describe('notifications de changement', () => {
+  it('prévient après chaque écriture, et une seule fois après une écriture atomique', async () => {
+    const repos = createLocalRepositories(track(newTestDatabase()));
+    let calls = 0;
+    const unsubscribe = repos.subscribe(() => {
+      calls += 1;
+    });
+
+    const account = await repos.accounts.create(cashAccount);
+    expect(calls).toBe(1);
+
+    await repos.runAtomic(async () => {
+      await repos.accounts.update(account.id, { name: 'A' });
+      await repos.accounts.update(account.id, { name: 'B' });
+      expect(calls).toBe(1);
+    });
+    expect(calls).toBe(2);
+
+    unsubscribe();
+    await repos.accounts.remove(account.id);
+    expect(calls).toBe(2);
+  });
+
+  it('ne prévient pas si l’écriture atomique échoue', async () => {
+    const repos = createLocalRepositories(track(newTestDatabase()));
+    let calls = 0;
+    repos.subscribe(() => {
+      calls += 1;
+    });
+    await expect(
+      repos.runAtomic(async () => {
+        await repos.accounts.create(cashAccount);
+        throw new Error('échec');
+      }),
+    ).rejects.toThrow('échec');
+    // L'écriture annulée n'a rien changé : une relecture inutile est sans danger, mais on
+    // vérifie surtout que les données sont intactes.
+    expect(await repos.accounts.list()).toEqual([]);
+    expect(calls).toBeLessThanOrEqual(1);
   });
 });

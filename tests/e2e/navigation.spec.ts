@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { skipOnboarding } from './helpers';
 
 const PAGES = [
   { path: '/', title: 'Accueil' },
@@ -6,11 +7,18 @@ const PAGES = [
   { path: '/budget', title: 'Budget' },
   { path: '/debts', title: 'Dettes' },
   { path: '/more', title: 'Plus' },
+  { path: '/more/accounts', title: 'Comptes' },
+  { path: '/more/categories', title: 'Catégories' },
+  { path: '/activity/new', title: 'Nouvelle opération' },
   { path: '/more/settings', title: 'Paramètres' },
   { path: '/more/data', title: 'Vos données' },
 ];
 
 test.use({ locale: 'fr-FR' });
+
+test.beforeEach(async ({ page }) => {
+  await skipOnboarding(page);
+});
 
 async function expectNoHorizontalScroll(page: Page) {
   const overflow = await page.evaluate(
@@ -58,7 +66,11 @@ test('un navigateur en anglais affiche l’anglais par défaut', async ({ browse
   const context = await browser.newContext({ locale: 'en-US' });
   const page = await context.newPage();
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1, name: 'Home' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Welcome to Kolo' })).toBeVisible();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await expect(
+    page.getByText('Suggested from your browser: USD. You can choose another one.'),
+  ).toBeVisible();
   await context.close();
 });
 
