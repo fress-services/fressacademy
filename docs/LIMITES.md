@@ -1,9 +1,14 @@
 # Limites connues
 
-Mise à jour : lot 4.
+Mise à jour : lot 5.
 
-- Dettes, dépenses planifiées et objectifs arrivent au lot 5 (le tableau de bord ne montre donc
-  pas encore d'échéances), export et import au lot 6.
+- Recherche, rapports, export et import arrivent au lot 6.
+- Un remboursement ne se modifie pas : on le supprime puis on le saisit à nouveau.
+- Le sens d'une dette (à récupérer ou à rembourser) ne change plus après sa création.
+- Supprimer une dette supprime aussi ses remboursements et les mouvements de compte liés.
+- Les dépenses prévues sont ponctuelles : pas de répétition automatique en V1.
+- Une dépense prévue payée se corrige depuis l'opération créée ; supprimer cette opération la
+  remet « prévue ».
 - Une seule limite de budget globale, sans budget par catégorie (décision D6).
 - Retirer la limite efface aussi celles des mois passés ; la modifier ne change que le mois en
   cours et les suivants.

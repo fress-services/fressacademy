@@ -82,6 +82,16 @@ export async function deleteTransaction(repos: KoloRepositories, id: string): Pr
     const transaction = await repos.transactions.getById(id);
     if (!transaction) throw new BusinessError('notFound');
     if (!isDeletableHere(transaction)) throw new BusinessError('managedElsewhere');
+    // Décision A8 : la dépense prévue d'origine redevient « prévue ».
+    if (transaction.linkedPlannedExpenseId) {
+      const planned = await repos.plannedExpenses.getById(transaction.linkedPlannedExpenseId);
+      if (planned?.linkedTransactionId === id) {
+        await repos.plannedExpenses.update(planned.id, {
+          status: 'planned',
+          linkedTransactionId: null,
+        });
+      }
+    }
     await repos.transactions.remove(id);
   });
 }

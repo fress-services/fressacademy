@@ -99,6 +99,9 @@ function Existing({ id, ledger }: { id: string; ledger: Ledger }) {
       ) : (
         <Summary transaction={transaction} ledger={ledger} />
       )}
+      {transaction.linkedPlannedExpenseId && (
+        <Notice tone="info">{t('transaction.linkedPlanned')}</Notice>
+      )}
       {isDeletableHere(transaction) && (
         <ConfirmAction
           label={t('transaction.delete')}
@@ -151,6 +154,11 @@ function Summary({ transaction, ledger }: { transaction: Transaction; ledger: Le
           </>
         )}
       </dl>
+      {transaction.linkedDebtId && (
+        <ButtonLink to={`/debts/${transaction.linkedDebtId}`} variant="secondary">
+          {t('debts.seeDebt')}
+        </ButtonLink>
+      )}
     </Card>
   );
 }

@@ -92,7 +92,7 @@ describe('dettes', () => {
   it('bascule entre « À récupérer » et « À rembourser » à la souris et au clavier', async () => {
     const user = userEvent.setup();
     await renderApp('/debts');
-    const receivable = screen.getByRole('tab', { name: 'À récupérer' });
+    const receivable = await screen.findByRole('tab', { name: 'À récupérer' });
     const payable = screen.getByRole('tab', { name: 'À rembourser' });
     expect(receivable).toHaveAttribute('aria-selected', 'true');
 

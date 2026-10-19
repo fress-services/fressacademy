@@ -12,6 +12,7 @@ import { useFormat } from '../../i18n/format';
 import { BudgetSummary } from '../budget/BudgetSummary';
 import { Loaded } from '../shared/Loaded';
 import { useLedger, type Ledger } from '../shared/useLedger';
+import { UpcomingCard } from './UpcomingCard';
 import styles from './DashboardPage.module.css';
 
 /** Résumé calculé à partir des données enregistrées, jamais une seconde source (§5.1). */
@@ -105,6 +106,8 @@ function Dashboard({ ledger }: { ledger: Ledger }) {
           {budget ? t('home.seeBudget') : t('budget.setLimit')}
         </Link>
       </Card>
+
+      <UpcomingCard ledger={ledger} today={today} />
 
       <section className={styles.month} aria-labelledby="month-title">
         <div className={styles.monthHeader}>

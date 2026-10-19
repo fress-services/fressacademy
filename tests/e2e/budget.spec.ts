@@ -15,7 +15,7 @@ test('premier lancement avec limite, puis le budget suit les dépenses', async (
   const budget = page.getByRole('region', { name: 'Budget du mois' });
   await expect(budget).toContainText('3 000,00');
 
-  await page.getByRole('link', { name: 'Dépense' }).click();
+  await page.getByRole('link', { name: 'Dépense', exact: true }).click();
   await page.getByLabel('Montant').fill('3500');
   await page.getByRole('button', { name: 'Enregistrer' }).click();
   await expect(page.getByText('Opération enregistrée.')).toBeVisible();

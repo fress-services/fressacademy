@@ -16,18 +16,26 @@ export type ValidationCode =
   | 'currencyMismatch'
   | 'archived'
   | 'wrongKind'
-  | 'notFound';
+  | 'notFound'
+  | 'exceedsRemaining'
+  | 'belowRepaid';
 
 export type FieldErrors<F extends string> = Partial<Record<F, ValidationCode>>;
 
 export const LIMITS = {
   accountName: 60,
+  contactLabel: 60,
+  goalName: 60,
   categoryName: 40,
   title: 80,
   note: 500,
 } as const;
 
-function textError(value: string, max: number, required: boolean): ValidationCode | undefined {
+export function textError(
+  value: string,
+  max: number,
+  required: boolean,
+): ValidationCode | undefined {
   const trimmed = value.trim();
   if (required && trimmed === '') return 'required';
   if (trimmed.length > max) return 'tooLong';

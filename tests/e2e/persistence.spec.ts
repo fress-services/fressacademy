@@ -49,7 +49,7 @@ test('le premier lancement ne revient pas et les opérations restent après rech
   page,
 }) => {
   await onboardWithAccount(page, 'Caisse', '100');
-  await page.getByRole('link', { name: 'Dépense' }).click();
+  await page.getByRole('link', { name: 'Dépense', exact: true }).click();
   await page.getByLabel('Montant').fill('12,50');
   await page.getByLabel('Libellé').fill('Marché');
   await page.getByRole('button', { name: 'Enregistrer' }).click();

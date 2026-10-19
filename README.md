@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 4 (tableau de bord et budget) terminé.** Le plan complet de la V1 est dans
+**État : lot 5 (dettes, dépenses prévues, objectifs) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -35,7 +35,14 @@ compte obligatoire.
 - Budget : limite mensuelle reconduite chaque mois, dépensé, reste, montant par jour jusqu'à la
   fin du mois (aujourd'hui inclus), dépassement affiché clairement.
 - Modèle de données complet de la V1 avec calculs d'argent exacts, catalogue des devises
-  ISO 4217 et dates locales. Dettes, dépenses planifiées et objectifs arrivent au lot 5.
+  ISO 4217 et dates locales.
+- Dettes (onglet Dettes) : à récupérer ou à rembourser, remboursements partiels, statut et
+  « en retard » calculés, mouvement d'argent enregistrable dans un compte sans compter comme
+  revenu, dépense ni budget.
+- Dépenses prévues (Plus) : à venir par échéance, « Marquer comme payée » qui crée une seule
+  dépense réelle, même en cas de double appui.
+- Objectifs d'épargne (Plus) : progression saisie à la main, sans effet sur les soldes.
+- Accueil : bloc « À venir » avec les prochaines dépenses prévues et les dettes ouvertes.
 
 ## Prérequis
 

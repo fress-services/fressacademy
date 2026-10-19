@@ -10,6 +10,9 @@ const PAGES = [
   { path: '/more/accounts', title: 'Comptes' },
   { path: '/more/categories', title: 'Catégories' },
   { path: '/activity/new', title: 'Nouvelle opération' },
+  { path: '/debts/new', title: 'Nouvelle dette' },
+  { path: '/more/planned', title: 'Dépenses prévues' },
+  { path: '/more/goals', title: 'Objectifs d’épargne' },
   { path: '/more/settings', title: 'Paramètres' },
   { path: '/more/data', title: 'Vos données' },
 ];
