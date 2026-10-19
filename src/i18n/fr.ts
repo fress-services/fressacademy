@@ -108,7 +108,8 @@ export const fr = {
     perDayHint:
       'Pour rester dans la limite jusqu’à la fin du mois : {days} jour(s), aujourd’hui inclus.',
     over: 'Budget dépassé',
-    overBody: 'Vous avez dépassé la limite de {amount}. Il ne reste rien à dépenser ce mois-ci.',
+    overBody:
+      'Vous avez dépensé {amount} de plus que la limite. Il ne reste rien à dépenser ce mois-ci.',
     counted:
       'Seules les dépenses en {currency} comptent. Revenus, transferts et ajustements ne changent pas le budget.',
     otherCurrency: 'Dépenses dans une autre devise, non comptées : {count}.',
@@ -185,7 +186,7 @@ export const fr = {
   more: {
     title: 'Plus',
     settings: 'Paramètres',
-    settingsHint: 'Langue et thème',
+    settingsHint: 'Langue, thème et données',
     accounts: 'Comptes',
     accountsHint: 'Espèces, banque, portefeuille mobile…',
     categories: 'Catégories',
@@ -424,7 +425,8 @@ export const fr = {
   amountErrors: {
     empty: 'Saisissez un montant.',
     invalid: 'Saisissez un nombre, par exemple 12,50.',
-    tooManyDecimals: 'Cette devise accepte au maximum {digits} chiffre(s) après la virgule.',
+    tooManyDecimals:
+      'Cette devise accepte au maximum {digits} chiffre(s) après la virgule. Écrivez les milliers sans point ni virgule (2500 ou 2 500).',
     notPositive: 'Le montant doit être supérieur à zéro.',
     tooLarge: 'Ce montant est trop grand.',
   },
@@ -432,6 +434,7 @@ export const fr = {
     accountInUse: 'Ce compte est utilisé par des opérations.',
     currencyLocked: 'La devise ne peut plus changer : des opérations utilisent ce compte.',
     managedElsewhere: 'Cette opération se gère ailleurs.',
+    plannedStaysExpense: 'Cette opération paie une dépense prévue : elle reste une dépense.',
     systemCategory: 'Les catégories fournies par Kolo ne peuvent pas être renommées.',
     notFound: 'Cet élément n’existe plus.',
   },

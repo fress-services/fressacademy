@@ -1,6 +1,6 @@
 # Limites connues
 
-Mise à jour : lot 7.
+Mise à jour : lot 8 (V1 1.0.0).
 
 - Restauration en remplacement seulement : pas de fusion de deux appareils (décision A7).
 - Le CSV est un export ; l'import d'un relevé bancaire CSV est prévu plus tard (roadmap V1.4).
@@ -35,6 +35,13 @@ Mise à jour : lot 7.
 - Les données sont liées à l'adresse du site : changer d'adresse (renommer le dépôt, changer
   d'hébergeur) demande une sauvegarde puis une restauration.
 - La mise en ligne sur GitHub Pages demande d'activer Pages une fois dans les réglages du dépôt.
-- L'audit automatique d'accessibilité ne remplace pas un test au lecteur d'écran (prévu au lot 8).
+- L'audit automatique d'accessibilité ne remplace pas un test au lecteur d'écran : à faire avec
+  [TEST_MANUEL.md](TEST_MANUEL.md).
+- Un montant s'écrit sans séparateur de milliers (« 2500 » ou « 2 500 ») : « 2,500 » en euros est
+  refusé, pour ne jamais être lu comme 2,50 €.
+- Montant maximum par saisie : 10^13 unités mineures, soit 100 milliards pour une devise à deux
+  décimales (euro, dollar) et 10 000 milliards pour une devise sans décimales (franc CFA, yen).
+- L'opération qui paie une dépense prévue reste une dépense : pour en changer le type, la
+  supprimer (la dépense redevient « prévue ») puis saisir la bonne opération.
 - Les tests automatiques simulent un téléphone (profil Pixel 7 dans Chromium) ; un test manuel
   sur un vrai téléphone reste nécessaire avant la sortie.

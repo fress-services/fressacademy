@@ -106,6 +106,17 @@ Le code vit à la racine de ce dépôt (et non dans `Kolo/app/` comme écrit dan
 | Bandeau dans le flux en haut de page, jamais par-dessus le contenu                             | Il ne doit jamais masquer un bouton (constaté pendant les tests).                                                                                                 |
 | Icônes PNG générées depuis le SVG par `npm run icons` ; icône « maskable » à fond plein        | Android découpe l'icône selon sa forme ; la lettre reste dans la zone sûre.                                                                                       |
 | Chemin de publication réglable (`KOLO_BASE`), routeur et manifeste en tiennent compte          | GitHub Pages publie sous `/<dépôt>/`. `404.html` renvoie les adresses directes vers l'application.                                                                |
-| Hébergement proposé : GitHub Pages, publication à chaque fusion dans `main`                    | Décision A13 : gratuit, statique, HTTPS, sans compte supplémentaire. En attente de la confirmation de l'utilisateur.                                              |
+| Hébergement : GitHub Pages, publication à chaque fusion dans `main`                            | Décision A13 : gratuit, statique, HTTPS, sans compte supplémentaire. Confirmé par l'utilisateur ; changeable plus tard (sauvegarde puis restauration).            |
 | Audit axe (WCAG 2.2 A/AA) sur toutes les pages, thèmes sombre et clair, sans violation tolérée | §10.2 ; à compléter par un test manuel au lecteur d'écran (lot 8).                                                                                                |
 | Bibliothèques dans un fichier `vendor` séparé                                                  | Cache plus durable entre deux versions ; supprime l'avertissement de taille.                                                                                      |
+
+## Lot 8
+
+| Décision                                                                                             | Raison                                                                                                   |
+| ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Politique de sécurité du contenu (CSP) dans la version publiée : seuls les fichiers de l'application | §9 : même si un texte malveillant passait, il ne pourrait ni charger ni envoyer quoi que ce soit.        |
+| Un montant avec plus de décimales que la devise est refusé, même « 2,500 » en euros                  | Lire 2,50 € à la place de 2 500 € serait une erreur silencieuse ; un refus avec message est sans danger. |
+| Montant saisi maximum : 10^13 unités mineures (100 milliards d'euros, 10 000 milliards de FCFA)      | Les soldes et totaux restent des entiers exacts ; aucun écran ne peut planter sur une somme.             |
+| L'opération qui paie une dépense prévue reste une dépense                                            | Sinon la dépense prévue resterait « payée » par un revenu ou un transfert.                               |
+| La restauration vérifie les règles de chaque type d'opération et refuse les totaux qui débordent     | Un fichier modifié à la main ne doit pas rendre l'application inutilisable après remplacement.           |
+| Version 1.0.0                                                                                        | Fin du périmètre V1.                                                                                     |

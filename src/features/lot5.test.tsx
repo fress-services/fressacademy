@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react';
+import { cleanup, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { accountBalance } from '../domain/balances';
@@ -161,6 +161,14 @@ describe('dépenses prévues', () => {
     expect(transactions[0]).toMatchObject({ type: 'expense', amountMinor: 6000, title: 'Loyer' });
     expect(await balance()).toBe(4000);
     expect(await screen.findByRole('link', { name: /Loyer/ })).toBeInTheDocument();
+
+    // L'opération créée reste une dépense : son type n'est pas modifiable.
+    cleanup();
+    await renderApp(`/activity/${transactions[0]!.id}`, { repositories });
+    expect(
+      await screen.findByText('Cette opération paie une dépense prévue : elle reste une dépense.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Revenu' })).not.toBeInTheDocument();
   });
 
   it('apparaît dans « À venir » sur l’accueil, avec les dettes ouvertes', async () => {

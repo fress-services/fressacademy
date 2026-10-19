@@ -25,6 +25,10 @@ export async function saveTransaction(
     const existing = existingId ? await repos.transactions.getById(existingId) : undefined;
     if (existingId && !existing) throw new BusinessError('notFound');
     if (existing && !isEditableHere(existing)) throw new BusinessError('managedElsewhere');
+    // Payer une dépense prévue crée une dépense : elle ne peut pas devenir un revenu ou un transfert.
+    if (existing?.linkedPlannedExpenseId && draft.type !== 'expense') {
+      throw new BusinessError('plannedStaysExpense');
+    }
 
     const context = {
       accounts: new Map(accounts.map((account) => [account.id, account])),

@@ -25,7 +25,7 @@ test('premier lancement avec limite, puis le budget suit les dépenses', async (
     .getByRole('link', { name: 'Budget' })
     .click();
   await expect(page.getByText('Budget dépassé')).toBeVisible();
-  await expect(page.getByText(/dépassé la limite de 500,00/)).toBeVisible();
+  await expect(page.getByText(/dépensé 500,00\s€ de plus que la limite/)).toBeVisible();
 
   await page.reload();
   await expect(page.getByText('Budget dépassé')).toBeVisible();

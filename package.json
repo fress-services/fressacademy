@@ -1,7 +1,7 @@
 {
   "name": "kolo",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Kolo : voir clair dans son argent. Application web progressive de finances personnelles, locale et hors ligne.",
   "type": "module",
   "engines": {

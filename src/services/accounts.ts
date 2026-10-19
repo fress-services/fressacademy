@@ -89,6 +89,9 @@ export async function adjustBalance(
     if (!account) throw new BusinessError('notFound');
     const current = accountBalance(account, await repos.transactions.list());
     const difference = input.actualBalanceMinor - current;
+    if (!Number.isSafeInteger(difference)) {
+      throw new ValidationError({ actualBalanceMinor: 'invalid' });
+    }
     if (difference === 0) return null;
     return repos.transactions.create({
       type: 'adjustment',

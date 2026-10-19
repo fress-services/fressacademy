@@ -6,7 +6,8 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 7 (installation, hors ligne, accessibilité) terminé.** Le plan complet de la V1 est dans
+**État : V1 terminée (version 1.0.0, lot 8 : revue finale).** Rapport des tests, limites et
+guide de lancement : [docs/RAPPORT_V1.md](docs/RAPPORT_V1.md). Le plan de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -91,7 +92,7 @@ Pour tester localement sous un sous-chemin : `KOLO_BASE=/fressacademy/ npm run b
 3. Sur un appareil déjà utilisé, la restauration **remplace** toutes les données (pas de fusion) :
    Kolo propose d'abord une sauvegarde de secours et demande une confirmation.
 
-Un fichier abîmé, étranger, trop gros (plus de 20 Mo) ou venant d'une version plus récente de
+Un fichier abîmé, étranger, incohérent, trop gros (plus de 20 Mo) ou venant d'une version plus récente de
 Kolo est refusé sans rien modifier.
 
 ## Prérequis
@@ -137,7 +138,7 @@ src/
   styles/      design tokens et styles globaux
   test/        aides de test
 tests/e2e/     scénarios Playwright
-docs/          plan, décisions et limites connues
+docs/          plan, décisions, limites, rapport final et test manuel
 ```
 
 Règles : les calculs d'argent vont dans `src/domain/` (fonctions pures testées), l'accès aux
@@ -149,6 +150,8 @@ Changer le schéma de la base : voir le commentaire en tête de `src/data/local/
 
 ## Documentation
 
+- [docs/RAPPORT_V1.md](docs/RAPPORT_V1.md) : rapport final des tests et guide de lancement.
+- [docs/TEST_MANUEL.md](docs/TEST_MANUEL.md) : liste à cocher sur téléphone et ordinateur.
 - [docs/PLAN_V1.md](docs/PLAN_V1.md) : audit, architecture et plan par lots.
 - [docs/DECISIONS.md](docs/DECISIONS.md) : décisions techniques et leurs raisons.
 - [docs/LIMITES.md](docs/LIMITES.md) : limites connues.

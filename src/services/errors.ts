@@ -12,7 +12,12 @@ export class ValidationError<F extends string = string> extends Error {
 }
 
 export type BusinessErrorCode =
-  'accountInUse' | 'currencyLocked' | 'managedElsewhere' | 'systemCategory' | 'notFound';
+  | 'accountInUse'
+  | 'currencyLocked'
+  | 'managedElsewhere'
+  | 'plannedStaysExpense'
+  | 'systemCategory'
+  | 'notFound';
 
 /** Action refusée pour préserver la cohérence des données (historique, liens…). */
 export class BusinessError extends Error {

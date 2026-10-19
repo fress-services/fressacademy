@@ -1,5 +1,6 @@
 import { isCurrencyCode } from '../../domain/currencies';
 import { isLocalDate, isLocalMonth } from '../../domain/dates';
+import { sumMinor } from '../../domain/money';
 import {
   ACCOUNT_TYPES,
   DEFAULT_PREFERENCES,
@@ -225,7 +226,10 @@ function readData(value: unknown): DataSnapshot {
   return snapshot;
 }
 
-/** Les identifiants sont uniques et chaque lien pointe vers un objet présent dans le fichier. */
+/**
+ * Les identifiants sont uniques, chaque lien pointe vers un objet présent dans le fichier,
+ * chaque opération a les comptes que son type exige, et aucun total ne peut déborder.
+ */
 function checkLinks(data: DataSnapshot): void {
   const ids = <T extends { id: string }>(list: readonly T[]) => {
     const set = new Set(list.map((item) => item.id));
@@ -251,6 +255,15 @@ function checkLinks(data: DataSnapshot): void {
     accountId === null || accounts.get(accountId)?.currencyCode === currency;
 
   for (const t of data.transactions) {
+    if (t.type === 'transfer') {
+      require(t.accountId === null && t.flow === null);
+      require(t.fromAccountId !== null && t.toAccountId !== null);
+      require(t.fromAccountId !== t.toAccountId);
+    } else {
+      require(t.accountId !== null && t.fromAccountId === null && t.toAccountId === null);
+      const needsFlow = t.type === 'debt_settlement' || t.type === 'adjustment';
+      require(needsFlow === (t.flow !== null));
+    }
     require(exists(accounts, t.accountId) && sameCurrency(t.accountId, t.currencyCode));
     require(exists(accounts, t.fromAccountId) && sameCurrency(t.fromAccountId, t.currencyCode));
     require(exists(accounts, t.toAccountId) && sameCurrency(t.toAccountId, t.currencyCode));
@@ -271,6 +284,22 @@ function checkLinks(data: DataSnapshot): void {
     require(exists(categories, p.categoryId));
     require(exists(accounts, p.accountId));
     require(exists(transactions, p.linkedTransactionId));
+  }
+
+  // Si la somme de tous les montants du fichier reste un entier exact, tout solde ou total
+  // calculé ensuite aussi : un fichier qui ferait planter les écrans est refusé ici.
+  try {
+    sumMinor([
+      ...data.accounts.map((a) => Math.abs(a.openingBalanceMinor)),
+      ...data.transactions.map((t) => t.amountMinor),
+      ...data.budgets.map((b) => b.limitMinor),
+      ...data.debts.map((d) => d.originalAmountMinor),
+      ...data.debtRepayments.map((r) => r.amountMinor),
+      ...data.plannedExpenses.map((p) => p.amountMinor),
+      ...data.goals.flatMap((g) => [g.targetAmountMinor, g.currentAmountMinor]),
+    ]);
+  } catch {
+    throw new InvalidBackup();
   }
 }
 

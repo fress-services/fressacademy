@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatMoney, parseAmount, sumMinor, toDecimalString } from './money';
+import { formatMoney, MAX_AMOUNT_MINOR, parseAmount, sumMinor, toDecimalString } from './money';
 
 const nbsp = /[\u00a0\u202f]/g;
 const plain = (text: string) => text.replace(nbsp, ' ');
@@ -16,11 +16,19 @@ describe('parseAmount', () => {
   it('respecte la précision de chaque devise', () => {
     expect(parseAmount('1500', 'XAF')).toEqual({ ok: true, amountMinor: 1500 });
     expect(parseAmount('1500,5', 'XAF')).toEqual({ ok: false, error: 'tooManyDecimals' });
-    expect(parseAmount('1500,0', 'JPY')).toEqual({ ok: true, amountMinor: 1500 });
+    expect(parseAmount('1500,0', 'JPY')).toEqual({ ok: false, error: 'tooManyDecimals' });
     expect(parseAmount('1,234', 'KWD')).toEqual({ ok: true, amountMinor: 1234 });
     expect(parseAmount('1,2345', 'KWD')).toEqual({ ok: false, error: 'tooManyDecimals' });
-    expect(parseAmount('1,000', 'EUR')).toEqual({ ok: true, amountMinor: 100 });
     expect(parseAmount('1,005', 'EUR')).toEqual({ ok: false, error: 'tooManyDecimals' });
+  });
+
+  it('ne lit jamais un séparateur de milliers comme une virgule (2,500 n’est pas 2,50)', () => {
+    expect(parseAmount('2,500', 'EUR')).toEqual({ ok: false, error: 'tooManyDecimals' });
+    expect(parseAmount('1.000', 'USD')).toEqual({ ok: false, error: 'tooManyDecimals' });
+    expect(parseAmount('25.000', 'XAF')).toEqual({ ok: false, error: 'tooManyDecimals' });
+    expect(parseAmount('1,000', 'JPY')).toEqual({ ok: false, error: 'tooManyDecimals' });
+    expect(parseAmount('12,50', 'EUR')).toEqual({ ok: true, amountMinor: 1250 });
+    expect(parseAmount('2 500', 'EUR')).toEqual({ ok: true, amountMinor: 250000 });
   });
 
   it('ne passe jamais par un flottant (0,1 + 0,2)', () => {
@@ -44,13 +52,12 @@ describe('parseAmount', () => {
     expect(parseAmount('0,00', 'EUR')).toEqual({ ok: false, error: 'notPositive' });
   });
 
-  it('refuse un montant au-delà de la précision exacte', () => {
+  it('refuse un montant au-delà de 10^13 unités mineures, pour que les totaux restent exacts', () => {
     expect(parseAmount('99999999999999999', 'EUR')).toEqual({ ok: false, error: 'tooLarge' });
-    expect(parseAmount('90071992547409,91', 'EUR')).toEqual({
-      ok: true,
-      amountMinor: 9007199254740991,
-    });
-    expect(parseAmount('90071992547409,92', 'EUR')).toEqual({ ok: false, error: 'tooLarge' });
+    expect(parseAmount('100000000000', 'EUR')).toEqual({ ok: true, amountMinor: MAX_AMOUNT_MINOR });
+    expect(parseAmount('100000000000,01', 'EUR')).toEqual({ ok: false, error: 'tooLarge' });
+    expect(parseAmount('10000000000000', 'JPY')).toEqual({ ok: true, amountMinor: 10 ** 13 });
+    expect(parseAmount('10000000000001', 'JPY')).toEqual({ ok: false, error: 'tooLarge' });
   });
 });
 

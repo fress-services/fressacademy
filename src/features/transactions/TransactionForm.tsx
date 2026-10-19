@@ -161,13 +161,20 @@ export function TransactionForm({ accounts, categories, initial, initialType, on
   return (
     <form className={cardClassName} onSubmit={submit} noValidate>
       {formError && <Notice tone="error">{formError}</Notice>}
-      <Segmented<EditableType>
-        legend={t('transaction.type')}
-        name="transaction-type"
-        value={type}
-        options={EDITABLE_TYPES.map((value) => ({ value, label: t(`transactionTypes.${value}`) }))}
-        onChange={changeType}
-      />
+      {initial?.linkedPlannedExpenseId ? (
+        <Notice tone="info">{t('business.plannedStaysExpense')}</Notice>
+      ) : (
+        <Segmented<EditableType>
+          legend={t('transaction.type')}
+          name="transaction-type"
+          value={type}
+          options={EDITABLE_TYPES.map((value) => ({
+            value,
+            label: t(`transactionTypes.${value}`),
+          }))}
+          onChange={changeType}
+        />
+      )}
       {isTransfer && sameCurrencyCount < 2 && (
         <Notice tone="info">{t('transaction.transferNeedsTwo')}</Notice>
       )}

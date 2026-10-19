@@ -62,7 +62,7 @@ export const en: Messages = {
     emptyTitle: 'No transactions yet',
     emptyBody: 'Your income, expenses and transfers will appear here, newest first.',
     search: 'Search',
-    searchHint: 'In titles, notes and categories.',
+    searchHint: 'In labels, notes and categories.',
     filters: 'Filters',
     filtersActive: 'Filters ({count})',
     filterType: 'Type',
@@ -104,7 +104,7 @@ export const en: Messages = {
     perDayHint:
       'To stay within the limit until the end of the month: {days} day(s), today included.',
     over: 'Over budget',
-    overBody: 'You went over the limit by {amount}. Nothing is left to spend this month.',
+    overBody: 'You spent {amount} more than the limit. Nothing is left to spend this month.',
     counted:
       'Only expenses in {currency} count. Income, transfers and adjustments do not change the budget.',
     otherCurrency: 'Expenses in another currency, not counted: {count}.',
@@ -180,7 +180,7 @@ export const en: Messages = {
   more: {
     title: 'More',
     settings: 'Settings',
-    settingsHint: 'Language and theme',
+    settingsHint: 'Language, theme and data',
     accounts: 'Accounts',
     accountsHint: 'Cash, bank, mobile wallet…',
     categories: 'Categories',
@@ -413,7 +413,8 @@ export const en: Messages = {
   amountErrors: {
     empty: 'Enter an amount.',
     invalid: 'Enter a number, for example 12.50.',
-    tooManyDecimals: 'This currency allows at most {digits} digit(s) after the decimal point.',
+    tooManyDecimals:
+      'This currency allows at most {digits} digit(s) after the decimal point. Write thousands without a comma or dot (2500 or 2 500).',
     notPositive: 'The amount must be greater than zero.',
     tooLarge: 'This amount is too large.',
   },
@@ -421,6 +422,7 @@ export const en: Messages = {
     accountInUse: 'This account is used by transactions.',
     currencyLocked: 'The currency can no longer change: transactions use this account.',
     managedElsewhere: 'This transaction is managed elsewhere.',
+    plannedStaysExpense: 'This transaction pays a planned expense: it stays an expense.',
     systemCategory: 'Categories provided by Kolo cannot be renamed.',
     notFound: 'This item no longer exists.',
   },
@@ -474,7 +476,7 @@ export const en: Messages = {
     name: 'Goal name',
     target: 'Target amount',
     current: 'Already saved',
-    currentHint: 'Entered by you: this progress changes no account balance and not the budget.',
+    currentHint: 'Entered by you: this progress does not change any account balance or the budget.',
     targetDate: 'Target date',
     targetDateHint: 'Optional.',
     emptyTitle: 'No goals',
@@ -568,7 +570,7 @@ export const en: Messages = {
     fromAccount: 'From account',
     toAccount: 'To account',
     category: 'Category',
-    title: 'Title',
+    title: 'Label',
     note: 'Note',
   },
   pwa: {

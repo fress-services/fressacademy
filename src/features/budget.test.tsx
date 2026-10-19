@@ -81,7 +81,7 @@ describe('budget', () => {
 
     const card = await screen.findByRole('region', { name: 'Budget de octobre 2026' });
     expect(within(card).getByText('Budget dépassé')).toBeInTheDocument();
-    expect(within(card).getByText(/dépassé la limite de 25,00\s€/)).toBeInTheDocument();
+    expect(within(card).getByText(/dépensé 25,00\s€ de plus que la limite/)).toBeInTheDocument();
     expect(within(card).getByText(/-25,00\s€/)).toBeInTheDocument();
   });
 

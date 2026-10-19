@@ -11,13 +11,18 @@ export type AmountParseError = 'empty' | 'invalid' | 'tooManyDecimals' | 'notPos
 export type AmountParseResult =
   { ok: true; amountMinor: MinorAmount } | { ok: false; error: AmountParseError };
 
-/** Plus grand montant accepté (entier exact en JavaScript). Les sommes sont aussi vérifiées. */
-export const MAX_AMOUNT_MINOR = Number.MAX_SAFE_INTEGER;
+/**
+ * Plus grand montant saisi accepté : 10^13 unités mineures (100 milliards d'euros). Bien en
+ * dessous de la limite des entiers exacts, pour que les soldes et totaux ne débordent jamais.
+ */
+export const MAX_AMOUNT_MINOR = 10 ** 13;
 
 /**
  * Lit un montant saisi par l'utilisateur, sans jamais passer par un flottant.
  * Accepte la virgule ou le point comme séparateur décimal et ignore les espaces.
  * Refuse les signes : le sens d'une opération est porté par son type (cahier des charges §6.1).
+ * Refuse plus de décimales que la devise n'en a, même des zéros : « 2,500 » en euros est
+ * sans doute 2 500 € écrit avec un séparateur de milliers, jamais lu comme 2,50 €.
  */
 export function parseAmount(input: string, currency: CurrencyCode): AmountParseResult {
   const text = input.replace(/[\s\u00a0\u202f]/g, '');
@@ -31,15 +36,14 @@ export function parseAmount(input: string, currency: CurrencyCode): AmountParseR
   if (whole === '' && fraction === '') return { ok: false, error: 'invalid' };
 
   const digits = minorUnits(currency);
-  const significantFraction = fraction.replace(/0+$/, '');
-  if (significantFraction.length > digits) return { ok: false, error: 'tooManyDecimals' };
+  if (fraction.length > digits) return { ok: false, error: 'tooManyDecimals' };
 
   const normalizedWhole = whole.replace(/^0+(?=\d)/, '');
   if (normalizedWhole.length > 16) return { ok: false, error: 'tooLarge' };
 
-  const minorText = (normalizedWhole || '0') + significantFraction.padEnd(digits, '0');
+  const minorText = (normalizedWhole || '0') + fraction.padEnd(digits, '0');
   const amountMinor = Number(minorText);
-  if (!Number.isSafeInteger(amountMinor)) {
+  if (!Number.isSafeInteger(amountMinor) || amountMinor > MAX_AMOUNT_MINOR) {
     return { ok: false, error: 'tooLarge' };
   }
   if (amountMinor <= 0) return { ok: false, error: 'notPositive' };

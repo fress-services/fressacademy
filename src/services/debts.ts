@@ -6,7 +6,7 @@ import {
   validateRepayment,
   type DebtInput,
 } from '../domain/debts';
-import { toLocalDate, type LocalDate } from '../domain/dates';
+import { isLocalDate, toLocalDate, type LocalDate } from '../domain/dates';
 import type { MinorAmount } from '../domain/money';
 import type { Debt, DebtRepayment, Flow, Transaction } from '../domain/types';
 import { hasErrors } from '../domain/validation';
@@ -158,7 +158,9 @@ export async function addRepayment(
   return repos.runAtomic(async () => {
     const debt = await repos.debts.getById(debtId);
     if (!debt) throw new BusinessError('notFound');
-    const summary = debtSummary(debt, await repaymentsOf(repos, debtId), input.date);
+    // Une date vide ne doit pas faire échouer le calcul du solde avant la vérification du champ.
+    const asOf = isLocalDate(input.date) ? input.date : debt.createdDate;
+    const summary = debtSummary(debt, await repaymentsOf(repos, debtId), asOf);
     const errors = validateRepayment(input, summary.remainingMinor);
     if (hasErrors(errors)) throw new ValidationError(errors);
     if (input.accountId) await requireCompatibleAccount(repos, input.accountId, debt.currencyCode);

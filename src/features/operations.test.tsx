@@ -218,7 +218,7 @@ describe('opérations', () => {
     await user.type(amount, '12,345');
     await user.click(screen.getByRole('button', { name: 'Enregistrer' }));
     expect(
-      screen.getByText('Cette devise accepte au maximum 2 chiffre(s) après la virgule.'),
+      screen.getByText(/Cette devise accepte au maximum 2 chiffre\(s\) après la virgule\./),
     ).toBeInTheDocument();
     expect(amount).toHaveAttribute('aria-invalid', 'true');
 
