@@ -1,0 +1,63 @@
+.monthHeader {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.monthTitle {
+  font-size: var(--font-size-lg);
+  text-align: center;
+}
+
+.block {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}
+
+.categories {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.categoryLine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+}
+
+.figure {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.comparison div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.comparison dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

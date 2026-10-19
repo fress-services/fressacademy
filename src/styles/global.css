@@ -1,0 +1,157 @@
+/*
+ * Design tokens : toutes les couleurs, tailles et espacements de l'application.
+ * Style de référence : maquettes fournies par le fondateur (sombre vert premium, cartes arrondies,
+ * accent émeraude). Le thème sombre est le thème par défaut.
+ * Le thème est choisi par l'attribut data-theme sur <html> : "dark", "light" ou "system".
+ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #06120e;
+  --color-bg-glow: rgb(16 185 129 / 20%);
+  --color-surface: rgb(255 255 255 / 4%);
+  --color-surface-strong: #0f221b;
+  --color-surface-muted: rgb(255 255 255 / 7%);
+  --color-hero-from: #0f5c43;
+  --color-hero-to: #0a261d;
+  --color-text: #ecfdf5;
+  --color-text-muted: #9cb8ad;
+  --color-border: rgb(255 255 255 / 9%);
+  --color-accent: #34d399;
+  --color-accent-strong: #10b981;
+  --color-accent-contrast: #022c22;
+  --color-accent-soft: rgb(16 185 129 / 16%);
+  --color-positive: #4ade80;
+  --color-negative: #fb7185;
+  --color-focus: #6ee7b7;
+  --color-nav-bg: rgb(8 22 17 / 88%);
+  --shadow-card: 0 10px 30px rgb(0 0 0 / 40%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f2f8f5;
+  --color-bg-glow: rgb(16 185 129 / 12%);
+  --color-surface: #ffffff;
+  --color-surface-strong: #ffffff;
+  --color-surface-muted: #e3f1ea;
+  --color-hero-from: #047857;
+  --color-hero-to: #064e3b;
+  --color-text: #0b2018;
+  --color-text-muted: #4b6359;
+  --color-border: #d3e6dd;
+  --color-accent: #047857;
+  --color-accent-strong: #047857;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: #dcf3e8;
+  --color-positive: #15803d;
+  --color-negative: #be123c;
+  --color-focus: #065f46;
+  --color-nav-bg: rgb(255 255 255 / 92%);
+  --shadow-card: 0 6px 20px rgb(6 78 59 / 10%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] {
+    color-scheme: light;
+
+    --color-bg: #f2f8f5;
+    --color-bg-glow: rgb(16 185 129 / 12%);
+    --color-surface: #ffffff;
+    --color-surface-strong: #ffffff;
+    --color-surface-muted: #e3f1ea;
+    --color-hero-from: #047857;
+    --color-hero-to: #064e3b;
+    --color-text: #0b2018;
+    --color-text-muted: #4b6359;
+    --color-border: #d3e6dd;
+    --color-accent: #047857;
+    --color-accent-strong: #047857;
+    --color-accent-contrast: #ffffff;
+    --color-accent-soft: #dcf3e8;
+    --color-positive: #15803d;
+    --color-negative: #be123c;
+    --color-focus: #065f46;
+    --color-nav-bg: rgb(255 255 255 / 92%);
+    --shadow-card: 0 6px 20px rgb(6 78 59 / 10%);
+  }
+}
+
+:root {
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.75rem;
+  --font-size-amount: 2.25rem;
+  --line-height: 1.5;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-pill: 999px;
+
+  --touch-target: 2.75rem;
+  --nav-height: 4.25rem;
+  --sidebar-width: 15rem;
+  --content-max-width: 44rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(60rem 30rem at 50% -10rem, var(--color-bg-glow), transparent 70%),
+    var(--color-bg);
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height);
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

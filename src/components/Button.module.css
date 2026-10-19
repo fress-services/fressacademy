@@ -1,0 +1,46 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: var(--color-accent-strong);
+  color: var(--color-accent-contrast);
+}
+
+.secondary {
+  border-color: var(--color-border);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.danger {
+  border-color: var(--color-negative);
+  background: transparent;
+  color: var(--color-negative);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.block {
+  width: 100%;
+}
