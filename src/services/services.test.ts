@@ -33,7 +33,12 @@ const courantInput: AccountInput = {
 };
 
 async function setup() {
-  const repos = createLocalRepositories(newTestDatabase());
+  // Horloge qui avance d'une seconde à chaque écriture : l'ordre de saisie est déterministe.
+  let tick = Date.UTC(2026, 9, 19);
+  const repos = createLocalRepositories(newTestDatabase(), {
+    now: () => new Date((tick += 1000)),
+    newId: () => crypto.randomUUID(),
+  });
   await ensureSystemCategories(repos);
   const categories = await repos.categories.list();
   const byKey = (key: string) => categories.find((category) => category.systemKey === key)!.id;
