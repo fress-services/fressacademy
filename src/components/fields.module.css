@@ -18,6 +18,15 @@
   font: inherit;
 }
 
+/*
+ * Le fond du champ est translucide ; la liste déroulante native, elle, a besoin d'un fond plein,
+ * sinon Windows l'affiche claire avec un texte clair, illisible.
+ */
+.input option {
+  background-color: var(--color-surface-strong);
+  color: var(--color-text);
+}
+
 .input[aria-invalid='true'] {
   border-color: var(--color-negative);
 }

@@ -42,6 +42,15 @@ export function formatLocalMonth(month: LocalMonth, locale: string): string {
   }).format(new Date(Date.UTC(year, monthNumber - 1, 15)));
 }
 
+/**
+ * « EUR · euro ». Certains navigateurs ne connaissent pas encore les devises récentes (SLE,
+ * VED…) : on affiche alors le code seul plutôt que « SLE · SLE ».
+ */
+export function formatCurrencyLabel(currency: CurrencyCode, locale: string): string {
+  const name = currencyName(currency, locale);
+  return name === currency ? currency : `${currency} · ${name}`;
+}
+
 export interface Formatters {
   locale: string;
   money: (amountMinor: MinorAmount, currency: CurrencyCode) => string;
@@ -69,7 +78,7 @@ export function useFormat(): Formatters {
       money: (amountMinor, currency) => formatMoney(amountMinor, currency, locale),
       date: (date, style = 'long') => formatLocalDate(date, locale, style),
       month: (month) => formatLocalMonth(month, locale),
-      currencyLabel: (currency) => `${currency} · ${currencyName(currency, locale)}`,
+      currencyLabel: (currency) => formatCurrencyLabel(currency, locale),
       decimalSeparator,
       minorUnits,
     };

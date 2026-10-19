@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { amountToInput, formatLocalDate, formatLocalMonth, resolveLocale } from './format';
+import {
+  amountToInput,
+  formatCurrencyLabel,
+  formatLocalDate,
+  formatLocalMonth,
+  resolveLocale,
+} from './format';
 
 describe('formats', () => {
   it('garde la région du navigateur si la langue correspond', () => {
@@ -14,6 +20,12 @@ describe('formats', () => {
     expect(formatLocalDate('2026-01-31', 'en-US')).toBe('January 31, 2026');
     expect(formatLocalMonth('2026-10', 'fr-FR')).toBe('octobre 2026');
     expect(formatLocalMonth('2026-02', 'en-US')).toBe('February 2026');
+  });
+
+  it('n’affiche pas deux fois le code d’une devise sans nom connu du navigateur', () => {
+    expect(formatCurrencyLabel('EUR', 'fr')).toBe('EUR · euro');
+    // Node ne connaît pas encore le nom français du bolívar souverain (VED).
+    expect(formatCurrencyLabel('VED', 'fr')).toBe('VED');
   });
 
   it('prépare un montant pour un champ de saisie', () => {
