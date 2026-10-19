@@ -29,6 +29,8 @@ Mise à jour : lot 8 (V1 1.0.0).
 - Le fuseau horaire est celui de l'appareil (décision A10), sans choix manuel.
 - Le catalogue des devises (`src/domain/currencies.ts`) doit être mis à jour à la main quand
   l'ISO 4217 change.
+- Le nom des devises vient du navigateur : une devise récente (SLE, VED…) peut s'afficher avec
+  son code seul si le navigateur ne connaît pas encore son nom.
 - Hors ligne seulement après une première ouverture avec Internet.
 - Sur iPhone, l'installation se fait à la main (Partager > « Sur l'écran d'accueil ») : Safari
   ne propose pas de bouton d'installation.
