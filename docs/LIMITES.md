@@ -1,9 +1,13 @@
 # Limites connues
 
-Mise à jour : lot 3.
+Mise à jour : lot 4.
 
-- Budget, dettes, dépenses planifiées, objectifs, export et import arrivent aux lots 4 à 6.
-  Le premier lancement ne propose donc pas encore de limite de budget.
+- Dettes, dépenses planifiées et objectifs arrivent au lot 5 (le tableau de bord ne montre donc
+  pas encore d'échéances), export et import au lot 6.
+- Une seule limite de budget globale, sans budget par catégorie (décision D6).
+- Retirer la limite efface aussi celles des mois passés ; la modifier ne change que le mois en
+  cours et les suivants.
+- Le montant par jour est arrondi vers le bas à l'unité de la devise (au centime pour l'euro).
 - Pas de transfert entre deux devises (aucune conversion en V1).
 - Un solde initial ne peut pas être négatif ; un découvert se saisit par un ajustement.
 - Un ajustement de solde ne se modifie pas : on le supprime puis on en refait un.

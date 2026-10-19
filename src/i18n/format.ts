@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useData } from '../app/data';
 import { currencyName, minorUnits, type CurrencyCode } from '../domain/currencies';
-import type { LocalDate } from '../domain/dates';
+import type { LocalDate, LocalMonth } from '../domain/dates';
 import { formatMoney, type MinorAmount } from '../domain/money';
 import { useI18n } from './context';
 import type { Language } from './languages';
@@ -32,10 +32,21 @@ export function formatLocalDate(
   );
 }
 
+/** Mois métier affiché selon la locale (« octobre 2026 »). */
+export function formatLocalMonth(month: LocalMonth, locale: string): string {
+  const [year, monthNumber] = month.split('-').map(Number) as [number, number];
+  return new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, monthNumber - 1, 15)));
+}
+
 export interface Formatters {
   locale: string;
   money: (amountMinor: MinorAmount, currency: CurrencyCode) => string;
   date: (date: LocalDate, style?: 'long' | 'medium') => string;
+  month: (month: LocalMonth) => string;
   currencyLabel: (currency: CurrencyCode) => string;
   decimalSeparator: string;
   minorUnits: (currency: CurrencyCode) => number;
@@ -57,6 +68,7 @@ export function useFormat(): Formatters {
       locale,
       money: (amountMinor, currency) => formatMoney(amountMinor, currency, locale),
       date: (date, style = 'long') => formatLocalDate(date, locale, style),
+      month: (month) => formatLocalMonth(month, locale),
       currencyLabel: (currency) => `${currency} · ${currencyName(currency, locale)}`,
       decimalSeparator,
       minorUnits,

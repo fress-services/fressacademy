@@ -83,7 +83,7 @@ describe('langue', () => {
     await renderApp('/budget', { language: 'en' });
     expect(screen.getByRole('heading', { level: 1, name: 'Budget' })).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 2, name: 'No spending limit' }),
+      await screen.findByRole('heading', { level: 2, name: 'No spending limit' }),
     ).toBeInTheDocument();
   });
 });

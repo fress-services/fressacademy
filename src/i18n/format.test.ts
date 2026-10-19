@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { amountToInput, formatLocalDate, resolveLocale } from './format';
+import { amountToInput, formatLocalDate, formatLocalMonth, resolveLocale } from './format';
 
 describe('formats', () => {
   it('garde la région du navigateur si la langue correspond', () => {
@@ -12,6 +12,8 @@ describe('formats', () => {
   it('affiche une date métier sans décalage de fuseau', () => {
     expect(formatLocalDate('2026-01-31', 'fr-FR')).toBe('31 janvier 2026');
     expect(formatLocalDate('2026-01-31', 'en-US')).toBe('January 31, 2026');
+    expect(formatLocalMonth('2026-10', 'fr-FR')).toBe('octobre 2026');
+    expect(formatLocalMonth('2026-02', 'en-US')).toBe('February 2026');
   });
 
   it('prépare un montant pour un champ de saisie', () => {

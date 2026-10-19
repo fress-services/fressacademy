@@ -54,3 +54,14 @@ Le code vit à la racine de ce dépôt (et non dans `Kolo/app/` comme écrit dan
 | Compte supprimable seulement s'il n'est pas utilisé ; sinon archivage (décision A11)                                      | Conserver l'historique.                                                                                  |
 | Ajustement : supprimable, non modifiable ; règlement de dette : géré depuis la dette (A8)                                 | Éviter des incohérences entre l'opération et ce qui l'a créée.                                           |
 | Suppression en deux temps (bouton puis « Oui, supprimer »)                                                                | Pas de fenêtre de confirmation native, accessible au clavier et au lecteur d'écran.                      |
+
+## Lot 4
+
+| Décision                                                                                                                         | Raison                                                                                                                 |
+| -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Une limite = un enregistrement `Budget` avec `startMonth` ; le mois utilise la plus récente commencée avant ou pendant ce mois   | Décision A4 : limite reconduite ; une modification s'applique à partir du mois en cours sans réécrire les mois passés. |
+| Toutes les dépenses (`expense`) du mois dans la devise du budget comptent ; les autres devises sont comptées à part et signalées | Décisions A5 et A6, formule du §5.5. Revenus, transferts, ajustements et règlements de dette n'y entrent jamais.       |
+| Montant par jour = reste ÷ jours restants (aujourd'hui inclus), arrondi vers le bas à l'unité mineure, zéro si dépassé           | Ne jamais annoncer un peu plus que ce qui reste ; formule du §5.5.                                                     |
+| Dépassement montré par un message, un reste négatif et une jauge rouge                                                           | §5.5 : ne pas cacher le dépassement.                                                                                   |
+| Le mois affiché sur l'accueil se change avec « Mois précédent / suivant », sans aller dans le futur                              | §5.1 : période courante avec accès au mois précédent.                                                                  |
+| Premier lancement en 4 étapes ; le compte saisi n'est enregistré qu'à la dernière, avec la limite, en une seule écriture         | §4.1 ; rien n'est à moitié enregistré si l'utilisateur quitte en cours de route.                                       |

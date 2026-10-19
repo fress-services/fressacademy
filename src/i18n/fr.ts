@@ -29,6 +29,18 @@ export const fr = {
     noAccountTitle: 'Commencez par un compte',
     noAccountBody: 'Ajoutez l’endroit où vous suivez votre argent pour voir votre solde ici.',
     seeAccounts: 'Voir les comptes',
+    monthLabel: 'Mois affiché',
+    previousMonth: 'Mois précédent',
+    nextMonth: 'Mois suivant',
+    income: 'Revenus',
+    expenses: 'Dépenses',
+    noActivityMonth: 'Aucun revenu ni dépense en {month}.',
+    budgetTitle: 'Budget du mois',
+    budgetNone:
+      'Aucune limite de dépenses : définissez-en une pour savoir combien dépenser par jour.',
+    perDayLeft: '{amount} par jour',
+    remainingOf: 'Reste {remaining} sur {limit}',
+    seeBudget: 'Voir le budget',
     emptyTitle: 'Bienvenue sur Kolo',
     emptyBody:
       'Ici apparaîtront vos soldes par devise, vos dépenses et revenus du mois, la marge de votre budget et vos prochaines échéances.',
@@ -47,6 +59,32 @@ export const fr = {
     emptyTitle: 'Aucune limite de dépenses',
     emptyBody:
       'Une limite mensuelle vous indiquera ce qu’il reste à dépenser ce mois-ci et combien cela représente par jour.',
+    setLimit: 'Définir une limite',
+    editLimit: 'Modifier la limite',
+    formTitle: 'Limite mensuelle de dépenses',
+    limitLabel: 'Limite par mois',
+    limitHint:
+      'Reconduite chaque mois jusqu’à modification. Une modification s’applique à partir de ce mois-ci.',
+    independence:
+      'Cette limite ne dépend pas de vos soldes : un solde élevé ne change pas ce que vous avez prévu de dépenser.',
+    saved: 'Limite enregistrée.',
+    remove: 'Retirer la limite',
+    removeConfirm:
+      'Retirer la limite ? Le suivi du budget s’arrêtera, y compris pour les mois passés.',
+    removed: 'Limite retirée.',
+    monthTitle: 'Budget de {month}',
+    limit: 'Limite',
+    spent: 'Dépensé',
+    remaining: 'Reste',
+    perDay: 'Par jour',
+    perDayHint:
+      'Pour rester dans la limite jusqu’à la fin du mois : {days} jour(s), aujourd’hui inclus.',
+    over: 'Budget dépassé',
+    overBody: 'Vous avez dépassé la limite de {amount}. Il ne reste rien à dépenser ce mois-ci.',
+    counted:
+      'Seules les dépenses en {currency} comptent. Revenus, transferts et ajustements ne changent pas le budget.',
+    otherCurrency: 'Dépenses dans une autre devise, non comptées : {count}.',
+    progress: 'Part de la limite dépensée',
   },
   debts: {
     title: 'Dettes',
@@ -139,8 +177,12 @@ export const fr = {
     accountTitle: 'Votre premier compte',
     accountIntro:
       'Un compte est un endroit où vous suivez de l’argent : espèces, compte bancaire, portefeuille mobile, épargne… Vous pourrez en ajouter d’autres plus tard.',
-    finish: 'Créer le compte et commencer',
     skip: 'Passer cette étape',
+    budgetTitle: 'Limite mensuelle de dépenses',
+    budgetIntro:
+      'Facultatif : avec une limite, Kolo vous indique chaque jour combien vous pouvez encore dépenser ce mois-ci. Elle ne dépend pas de vos soldes.',
+    finish: 'Commencer',
+    skipBudget: 'Passer et commencer',
   },
   accounts: {
     title: 'Comptes',

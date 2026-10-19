@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 3 (comptes, catégories, opérations) terminé.** Le plan complet de la V1 est dans
+**État : lot 4 (tableau de bord et budget) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -22,7 +22,7 @@ compte obligatoire.
 - Page « Vos données » : où sont conservées les données, leurs limites, et demande de protection
   contre l'effacement automatique par le navigateur.
 - Premier lancement guidé : langue, devise principale (suggérée d'après le navigateur), premier
-  compte facultatif.
+  compte et limite mensuelle de dépenses facultatifs.
 - Comptes (Plus > Comptes) : création, modification, solde initial, ajustement de solde par une
   opération datée, archivage, suppression d'un compte inutilisé. Devise verrouillée dès qu'une
   opération utilise le compte.
@@ -30,9 +30,12 @@ compte obligatoire.
   renommer et archiver.
 - Opérations : dépense, revenu, transfert entre comptes de même devise ; ajout, modification,
   suppression ; liste « Activité » groupée par date.
-- Accueil : soldes par devise (jamais additionnés entre devises) et ajout rapide.
+- Accueil : soldes par compte et par devise (jamais additionnés entre devises), ajout rapide,
+  résumé du budget, revenus et dépenses du mois avec accès aux mois précédents.
+- Budget : limite mensuelle reconduite chaque mois, dépensé, reste, montant par jour jusqu'à la
+  fin du mois (aujourd'hui inclus), dépassement affiché clairement.
 - Modèle de données complet de la V1 avec calculs d'argent exacts, catalogue des devises
-  ISO 4217 et dates locales. Budget, dettes et dépenses planifiées arrivent aux lots suivants.
+  ISO 4217 et dates locales. Dettes, dépenses planifiées et objectifs arrivent au lot 5.
 
 ## Prérequis
 

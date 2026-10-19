@@ -29,6 +29,17 @@ export const en: Messages = {
     noAccountTitle: 'Start with an account',
     noAccountBody: 'Add the place where you track your money to see your balance here.',
     seeAccounts: 'See accounts',
+    monthLabel: 'Month shown',
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
+    income: 'Income',
+    expenses: 'Expenses',
+    noActivityMonth: 'No income or expenses in {month}.',
+    budgetTitle: 'This month’s budget',
+    budgetNone: 'No spending limit: set one to know how much you can spend per day.',
+    perDayLeft: '{amount} per day',
+    remainingOf: '{remaining} left of {limit}',
+    seeBudget: 'See budget',
     emptyTitle: 'Welcome to Kolo',
     emptyBody:
       'Your balances by currency, this month’s spending and income, your budget margin and upcoming due dates will appear here.',
@@ -46,6 +57,30 @@ export const en: Messages = {
     emptyTitle: 'No spending limit',
     emptyBody:
       'A monthly limit will show how much you have left to spend this month and what that means per day.',
+    setLimit: 'Set a limit',
+    editLimit: 'Change the limit',
+    formTitle: 'Monthly spending limit',
+    limitLabel: 'Limit per month',
+    limitHint: 'Repeats every month until you change it. A change applies from this month on.',
+    independence:
+      'This limit does not depend on your balances: a high balance does not change what you planned to spend.',
+    saved: 'Limit saved.',
+    remove: 'Remove the limit',
+    removeConfirm: 'Remove the limit? Budget tracking will stop, including for past months.',
+    removed: 'Limit removed.',
+    monthTitle: 'Budget for {month}',
+    limit: 'Limit',
+    spent: 'Spent',
+    remaining: 'Left',
+    perDay: 'Per day',
+    perDayHint:
+      'To stay within the limit until the end of the month: {days} day(s), today included.',
+    over: 'Over budget',
+    overBody: 'You went over the limit by {amount}. Nothing is left to spend this month.',
+    counted:
+      'Only expenses in {currency} count. Income, transfers and adjustments do not change the budget.',
+    otherCurrency: 'Expenses in another currency, not counted: {count}.',
+    progress: 'Share of the limit spent',
   },
   debts: {
     title: 'Debts',
@@ -133,8 +168,12 @@ export const en: Messages = {
     accountTitle: 'Your first account',
     accountIntro:
       'An account is a place where you track money: cash, bank account, mobile wallet, savings… You can add more later.',
-    finish: 'Create the account and start',
     skip: 'Skip this step',
+    budgetTitle: 'Monthly spending limit',
+    budgetIntro:
+      'Optional: with a limit, Kolo tells you every day how much you can still spend this month. It does not depend on your balances.',
+    finish: 'Start',
+    skipBudget: 'Skip and start',
   },
   accounts: {
     title: 'Accounts',

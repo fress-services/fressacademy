@@ -21,6 +21,7 @@ import {
   sortCategories,
 } from './categories';
 import { BusinessError, ValidationError } from './errors';
+import { removeBudget, setMonthlyBudget } from './budget';
 import { completeOnboarding } from './onboarding';
 import { deleteTransaction, saveTransaction, sortTransactions } from './transactions';
 
@@ -276,6 +277,20 @@ describe('premier lancement', () => {
     expect(prefs.defaultCurrency).toBe('XAF');
     expect(prefs.onboardingCompletedAt).toBe('2026-10-19T08:00:00.000Z');
     expect((await repos.accounts.list()).map((a) => a.name)).toEqual(['Espèces']);
+    expect(await repos.budgets.list()).toHaveLength(0);
+  });
+
+  it('enregistre la limite mensuelle facultative dans la devise choisie', async () => {
+    const repos = createLocalRepositories(newTestDatabase());
+    await completeOnboarding(repos, {
+      defaultCurrency: 'XAF',
+      account: null,
+      budgetLimitMinor: 150000,
+      now: new Date('2026-10-19T08:00:00Z'),
+    });
+    expect(await repos.budgets.list()).toMatchObject([
+      { startMonth: '2026-10', currencyCode: 'XAF', limitMinor: 150000, includedCategoryIds: null },
+    ]);
   });
 
   it('n’enregistre rien si le compte est invalide', async () => {
@@ -284,5 +299,40 @@ describe('premier lancement', () => {
       completeOnboarding(repos, { defaultCurrency: 'EUR', account: { ...courantInput, name: '' } }),
     ).rejects.toBeInstanceOf(ValidationError);
     expect((await repos.preferences.get()).onboardingCompletedAt).toBeNull();
+  });
+});
+
+describe('budget mensuel', () => {
+  it('reconduit la limite et applique une modification à partir du mois donné', async () => {
+    const repos = createLocalRepositories(newTestDatabase());
+    await setMonthlyBudget(repos, { limitMinor: 30000, currencyCode: 'EUR' }, '2026-09');
+    await setMonthlyBudget(repos, { limitMinor: 40000, currencyCode: 'EUR' }, '2026-10');
+    await setMonthlyBudget(repos, { limitMinor: 45000, currencyCode: 'EUR' }, '2026-10');
+    const budgets = (await repos.budgets.list()).sort((a, b) =>
+      a.startMonth.localeCompare(b.startMonth),
+    );
+    expect(budgets.map((b) => [b.startMonth, b.limitMinor])).toEqual([
+      ['2026-09', 30000],
+      ['2026-10', 45000],
+    ]);
+  });
+
+  it('refuse une limite nulle, négative ou sans devise', async () => {
+    const repos = createLocalRepositories(newTestDatabase());
+    await expect(
+      setMonthlyBudget(repos, { limitMinor: 0, currencyCode: 'EUR' }, '2026-10'),
+    ).rejects.toEqual(new ValidationError({ limitMinor: 'notPositive' }));
+    await expect(
+      setMonthlyBudget(repos, { limitMinor: 100, currencyCode: 'ZZZ' as 'EUR' }, '2026-10'),
+    ).rejects.toBeInstanceOf(ValidationError);
+    expect(await repos.budgets.list()).toHaveLength(0);
+  });
+
+  it('retire toutes les limites', async () => {
+    const repos = createLocalRepositories(newTestDatabase());
+    await setMonthlyBudget(repos, { limitMinor: 30000, currencyCode: 'EUR' }, '2026-09');
+    await setMonthlyBudget(repos, { limitMinor: 40000, currencyCode: 'EUR' }, '2026-10');
+    await removeBudget(repos);
+    expect(await repos.budgets.list()).toHaveLength(0);
   });
 });

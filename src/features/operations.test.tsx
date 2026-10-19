@@ -41,7 +41,7 @@ describe('premier lancement', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Bienvenue sur Kolo' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Étape 1 sur 3')).toBeInTheDocument();
+    expect(screen.getByText('Étape 1 sur 4')).toBeInTheDocument();
     expect(
       screen.queryByRole('navigation', { name: 'Navigation principale' }),
     ).not.toBeInTheDocument();
@@ -61,10 +61,21 @@ describe('premier lancement', () => {
     expect(screen.getByRole('combobox', { name: 'Devise' })).toHaveValue('XAF');
     await user.type(screen.getByRole('textbox', { name: 'Nom du compte' }), 'Espèces');
     await user.type(screen.getByRole('textbox', { name: 'Solde initial' }), '15000');
-    await user.click(screen.getByRole('button', { name: 'Créer le compte et commencer' }));
+    await user.click(screen.getByRole('button', { name: 'Continuer' }));
+
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Limite mensuelle de dépenses' }),
+    ).toBeInTheDocument();
+    await user.type(screen.getByRole('textbox', { name: 'Limite par mois' }), '90000');
+    await user.click(screen.getByRole('button', { name: 'Commencer' }));
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Accueil' })).toBeInTheDocument();
-    expect(await screen.findByText(/15\s000\sFCFA/)).toBeInTheDocument();
+    const balances = await screen.findByRole('region', { name: 'Vos soldes' });
+    expect(within(balances).getAllByText(/15\s000\sFCFA/)).toHaveLength(2);
+    expect(await repositories.accounts.list()).toHaveLength(1);
+    expect(await repositories.budgets.list()).toMatchObject([
+      { currencyCode: 'XAF', limitMinor: 90000 },
+    ]);
     const preferences = await repositories.preferences.get();
     expect(preferences.defaultCurrency).toBe('XAF');
     expect(preferences.onboardingCompletedAt).not.toBeNull();
@@ -76,6 +87,7 @@ describe('premier lancement', () => {
     await user.click(screen.getByRole('button', { name: 'Continuer' }));
     await user.click(screen.getByRole('button', { name: 'Continuer' }));
     await user.click(screen.getByRole('button', { name: 'Passer cette étape' }));
+    await user.click(await screen.findByRole('button', { name: 'Passer et commencer' }));
 
     expect(
       await screen.findByRole('heading', { level: 2, name: 'Commencez par un compte' }),
@@ -88,8 +100,8 @@ describe('premier lancement', () => {
     await renderApp('/', { onboarded: false, language: 'en' });
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    await user.click(screen.getByRole('button', { name: 'Create the account and start' }));
-    expect(screen.getByText('This field is required.')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(await screen.findByText('This field is required.')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Account name' })).toHaveAttribute(
       'aria-invalid',
       'true',
@@ -194,7 +206,7 @@ describe('opérations', () => {
     expect(item).toHaveTextContent(/-12,50\s€/);
 
     await user.click(screen.getByRole('link', { name: 'Accueil' }));
-    expect(await screen.findByText(/87,50\s€/)).toBeInTheDocument();
+    expect((await screen.findAllByText(/87,50\s€/)).length).toBeGreaterThan(0);
   });
 
   it('signale un montant invalide sans rien enregistrer', async () => {
@@ -316,8 +328,8 @@ describe('opérations', () => {
     ]);
     await renderApp('/', { repositories });
     const balances = await screen.findByRole('region', { name: 'Vos soldes' });
-    expect(within(balances).getByText(/500,00\s€/)).toBeInTheDocument();
-    expect(within(balances).getByText(/20\s000\sFCFA/)).toBeInTheDocument();
+    expect(within(balances).getAllByText(/500,00\s€/)).toHaveLength(2);
+    expect(within(balances).getAllByText(/20\s000\sFCFA/)).toHaveLength(2);
     expect(within(balances).getByText(/n’additionne jamais deux devises/)).toBeInTheDocument();
   });
 });
