@@ -16,3 +16,26 @@ Le code vit à la racine de ce dépôt (et non dans `Kolo/app/` comme écrit dan
 | Langue et thème non mémorisés au lot 1                              | Ils seront enregistrés avec les préférences dans IndexedDB au lot 2 (pas de `localStorage` en double).                                                                                                                                           |
 | `no-console` en erreur (sauf `console.error`)                       | Éviter qu'un montant ou une note finisse dans la console (cahier des charges §9.1).                                                                                                                                                              |
 | Tests de bout en bout sur la version de production (`vite preview`) | On teste ce qui sera réellement livré.                                                                                                                                                                                                           |
+
+## Style visuel
+
+| Décision                                                                                     | Raison                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Thème « sombre vert premium » par défaut (fond vert nuit, accent émeraude, cartes arrondies) | Choix du fondateur le 19 octobre 2026 d'après ses maquettes. Thème clair et « comme l'appareil » disponibles dans les paramètres. |
+
+## Lot 2
+
+| Décision                                                                                      | Raison                                                                                                                                            |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Montants en entiers d'unités mineures + table ISO 4217 embarquée (`src/domain/currencies.ts`) | Aucun flottant (cahier des charges §6.1). Le nombre de décimales vient de l'ISO, pas du navigateur (qui diffère parfois).                         |
+| Saisie : virgule ou point acceptés comme séparateur décimal, espaces ignorés, signes refusés  | Claviers français et anglais ; le sens d'une opération est porté par son type. « 1,005 » en EUR est refusé (trop de décimales) plutôt que deviné. |
+| Dates métier en chaînes `AAAA-MM-JJ`, horodatages techniques en ISO UTC                       | Une opération ne change pas de jour si le fuseau change (§6.3).                                                                                   |
+| Type d'opération `adjustment` et champ `flow` (entrée/sortie)                                 | Décision A1 : ajustement de solde explicite ; `flow` donne le sens des règlements de dette et ajustements.                                        |
+| `Debt.openingTransactionId`                                                                   | Décision A3 : mouvement d'argent facultatif à la création d'une dette.                                                                            |
+| Dexie 4 (IndexedDB), une table par entité, `runAtomic` pour les écritures liées               | Stockage hors ligne structuré, transactions tout-ou-rien, migrations versionnées.                                                                 |
+| Erreurs de stockage converties en codes (`StorageError`) sans le message d'origine            | Pas d'erreur brute de base de données à l'écran ni de donnée personnelle dans les journaux.                                                       |
+| Une base créée par une version plus récente de Kolo est refusée à l'ouverture                 | Protège les données d'une ancienne version de l'app (Dexie 4 l'ouvrirait sinon).                                                                  |
+| Préférences : un enregistrement unique complété par des valeurs par défaut                    | Un champ ajouté plus tard n'exige pas de migration.                                                                                               |
+| Protection contre l'effacement (`navigator.storage.persist`) demandée seulement sur bouton    | Firefox affiche une autorisation : on ne la déclenche pas au démarrage.                                                                           |
+| `fake-indexeddb` pour les tests                                                               | Teste la vraie couche Dexie sans navigateur.                                                                                                      |
+| `dexie-react-hooks` reporté au lot 3                                                          | Pas encore de liste à afficher en direct.                                                                                                         |

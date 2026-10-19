@@ -39,6 +39,7 @@ test('la navigation principale mène à chaque onglet', async ({ page }) => {
 
 test('le lien d’évitement apparaît au clavier et mène au contenu', async ({ page }) => {
   await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'Accueil' })).toBeVisible();
   await page.keyboard.press('Tab');
   const skip = page.getByRole('link', { name: 'Aller au contenu' });
   await expect(skip).toBeFocused();
@@ -47,7 +48,7 @@ test('le lien d’évitement apparaît au clavier et mène au contenu', async ({
 
 test('la langue se change en anglais depuis les paramètres', async ({ page }) => {
   await page.goto('/more/settings');
-  await page.getByRole('radio', { name: 'English' }).check();
+  await page.getByRole('radio', { name: 'English' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Settings' })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page).toHaveTitle('Settings · Kolo');

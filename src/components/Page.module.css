@@ -5,7 +5,9 @@
 
 .title {
   font-size: var(--font-size-xl);
+  font-weight: 800;
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .back {

@@ -4,7 +4,7 @@ import type { MessageKey, MessageParams } from './translate';
 
 export interface I18nValue {
   language: Language;
-  setLanguage: (language: Language) => void;
+  setLanguage: (language: Language) => Promise<void>;
   t: (key: MessageKey, params?: MessageParams) => string;
 }
 

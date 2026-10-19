@@ -50,14 +50,18 @@ export const fr = {
   more: {
     title: 'Plus',
     settings: 'Paramètres',
-    settingsHint: 'Langue de l’interface',
+    settingsHint: 'Langue et thème',
     data: 'Vos données',
     dataHint: 'Où elles sont conservées et comment les protéger',
   },
   settings: {
     title: 'Paramètres',
     language: 'Langue de l’interface',
-    themeNote: 'Le thème clair ou sombre suit pour l’instant le réglage de votre appareil.',
+    theme: 'Thème',
+    themeDark: 'Sombre',
+    themeLight: 'Clair',
+    themeSystem: 'Comme l’appareil',
+    saved: 'Préférence enregistrée.',
   },
   data: {
     title: 'Vos données',
@@ -66,6 +70,17 @@ export const fr = {
     risk: 'Si vous effacez les données de ce navigateur ou perdez cet appareil, vos données seront perdues, sauf si vous en avez exporté une sauvegarde.',
     privacy:
       'Une personne qui a accès à cet appareil déverrouillé peut consulter ces données. Kolo n’est ni une banque ni un service chiffré.',
+    protectionTitle: 'Protection contre l’effacement automatique',
+    protectionGranted:
+      'Activée : le navigateur ne supprimera pas ces données de lui-même pour libérer de la place.',
+    protectionDenied:
+      'Non activée : le navigateur pourrait effacer ces données s’il manque de place ou si Kolo n’est pas utilisé pendant longtemps.',
+    protectionUnsupported:
+      'Ce navigateur ne permet pas de protéger les données contre l’effacement.',
+    protectionChecking: 'Vérification en cours…',
+    protectionAction: 'Demander la protection',
+    protectionRefused:
+      'Le navigateur a refusé pour l’instant. Installer Kolo sur l’écran d’accueil peut aider.',
   },
   notFound: {
     title: 'Page introuvable',
@@ -74,6 +89,21 @@ export const fr = {
   },
   common: {
     back: 'Retour',
+    loading: 'Chargement…',
+    reload: 'Recharger la page',
+  },
+  errors: {
+    startTitle: 'Kolo ne peut pas ouvrir vos données',
+    unavailable:
+      'Le stockage de ce navigateur n’est pas disponible (navigation privée ou stockage bloqué). Ouvrez Kolo dans une fenêtre normale ou dans un autre navigateur.',
+    quotaExceeded:
+      'L’espace de stockage de ce navigateur est plein. Libérez de la place puis rechargez la page.',
+    newerVersion:
+      'Vos données ont été enregistrées par une version plus récente de Kolo. Rechargez la page pour obtenir la dernière version. Vos données n’ont pas été modifiées.',
+    notFound: 'L’élément demandé n’existe plus.',
+    unknown:
+      'Une erreur inattendue s’est produite. Rechargez la page. Vos données n’ont pas été modifiées.',
+    saveFailed: 'L’enregistrement a échoué : {reason}',
   },
 };
 

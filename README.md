@@ -6,7 +6,7 @@ Kolo est une application web progressive (PWA) de finances personnelles, pensée
 entier : saisie manuelle, données conservées sur l'appareil, aucune connexion bancaire, aucun
 compte obligatoire.
 
-**État : lot 1 (socle de l'interface).** Le plan complet de la V1 est dans
+**État : lot 2 (données locales) terminé.** Le plan complet de la V1 est dans
 [docs/PLAN_V1.md](docs/PLAN_V1.md).
 
 ## Ce qui existe aujourd'hui
@@ -16,10 +16,14 @@ compte obligatoire.
 - États vides explicatifs sur chaque onglet.
 - Interface en français et en anglais (langue proposée selon le navigateur, modifiable dans
   Plus > Paramètres).
-- Thème clair ou sombre selon le réglage de l'appareil.
-- Page « Vos données » qui explique où sont conservées les données et leurs limites.
-
-Aucune donnée n'est encore enregistrée : le stockage local arrive au lot 2.
+- Style « sombre vert premium » (thème sombre par défaut), thème clair ou « comme l'appareil »
+  au choix dans Plus > Paramètres.
+- Langue et thème mémorisés sur l'appareil (base locale IndexedDB).
+- Page « Vos données » : où sont conservées les données, leurs limites, et demande de protection
+  contre l'effacement automatique par le navigateur.
+- Modèle de données complet de la V1 (comptes, opérations, budget, dettes, dépenses planifiées,
+  objectifs) avec calculs d'argent exacts, catalogue des devises ISO 4217 et dates locales.
+  Les écrans de saisie arrivent au lot 3.
 
 ## Prérequis
 
@@ -48,8 +52,10 @@ en bout avec `KOLO_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
 
 ```
 src/
-  app/         démarrage, routes, mise en page et navigation
+  app/         démarrage, ouverture des données, routes, mise en page et navigation
   components/  composants réutilisables (page, état vide, onglets, icônes)
+  domain/      types et règles métier purs : argent, devises, dates (aucun accès navigateur)
+  data/        contrats des repositories, base locale Dexie, migrations, erreurs de stockage
   features/    un dossier par écran (dashboard, transactions, budget, debts, more, settings)
   i18n/        textes FR/EN et traduction
   styles/      design tokens et styles globaux
@@ -58,8 +64,11 @@ tests/e2e/     scénarios Playwright
 docs/          plan, décisions et limites connues
 ```
 
-Règles : les calculs d'argent iront dans `src/domain/` (fonctions pures testées), l'accès aux
-données dans `src/data/` ; les écrans ne lisent jamais la base directement.
+Règles : les calculs d'argent vont dans `src/domain/` (fonctions pures testées), l'accès aux
+données dans `src/data/` ; les écrans ne lisent jamais la base directement. Les montants sont
+des entiers en unités mineures (12,50 EUR = 1250), jamais des nombres à virgule.
+
+Changer le schéma de la base : voir le commentaire en tête de `src/data/local/db.ts`.
 
 ## Documentation
 

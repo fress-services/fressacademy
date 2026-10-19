@@ -49,14 +49,18 @@ export const en: Messages = {
   more: {
     title: 'More',
     settings: 'Settings',
-    settingsHint: 'Interface language',
+    settingsHint: 'Language and theme',
     data: 'Your data',
     dataHint: 'Where it is stored and how to protect it',
   },
   settings: {
     title: 'Settings',
     language: 'Interface language',
-    themeNote: 'Light or dark theme currently follows your device setting.',
+    theme: 'Theme',
+    themeDark: 'Dark',
+    themeLight: 'Light',
+    themeSystem: 'Same as device',
+    saved: 'Preference saved.',
   },
   data: {
     title: 'Your data',
@@ -65,6 +69,15 @@ export const en: Messages = {
     risk: 'If you clear this browser’s data or lose this device, your data will be lost unless you have exported a backup.',
     privacy:
       'Anyone with access to this unlocked device can view this data. Kolo is neither a bank nor an encrypted service.',
+    protectionTitle: 'Protection against automatic deletion',
+    protectionGranted: 'On: the browser will not delete this data on its own to free up space.',
+    protectionDenied:
+      'Off: the browser could delete this data if it runs out of space or if Kolo is not used for a long time.',
+    protectionUnsupported: 'This browser cannot protect data against deletion.',
+    protectionChecking: 'Checking…',
+    protectionAction: 'Request protection',
+    protectionRefused:
+      'The browser declined for now. Installing Kolo on your home screen may help.',
   },
   notFound: {
     title: 'Page not found',
@@ -73,5 +86,18 @@ export const en: Messages = {
   },
   common: {
     back: 'Back',
+    loading: 'Loading…',
+    reload: 'Reload page',
+  },
+  errors: {
+    startTitle: 'Kolo cannot open your data',
+    unavailable:
+      'This browser’s storage is not available (private browsing or storage blocked). Open Kolo in a normal window or another browser.',
+    quotaExceeded: 'This browser’s storage is full. Free up some space, then reload the page.',
+    newerVersion:
+      'Your data was saved by a newer version of Kolo. Reload the page to get the latest version. Your data has not been changed.',
+    notFound: 'The requested item no longer exists.',
+    unknown: 'An unexpected error occurred. Reload the page. Your data has not been changed.',
+    saveFailed: 'Saving failed: {reason}',
   },
 };

@@ -1,23 +1,91 @@
-/* Design tokens : toutes les couleurs, tailles et espacements de l'application. */
-:root {
-  color-scheme: light dark;
+/*
+ * Design tokens : toutes les couleurs, tailles et espacements de l'application.
+ * Style de référence : maquettes fournies par le fondateur (sombre vert premium, cartes arrondies,
+ * accent émeraude). Le thème sombre est le thème par défaut.
+ * Le thème est choisi par l'attribut data-theme sur <html> : "dark", "light" ou "system".
+ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
 
-  --color-bg: #f6f7f9;
+  --color-bg: #06120e;
+  --color-bg-glow: rgb(16 185 129 / 20%);
+  --color-surface: rgb(255 255 255 / 4%);
+  --color-surface-strong: #0f221b;
+  --color-surface-muted: rgb(255 255 255 / 7%);
+  --color-hero-from: #0f5c43;
+  --color-hero-to: #0a261d;
+  --color-text: #ecfdf5;
+  --color-text-muted: #9cb8ad;
+  --color-border: rgb(255 255 255 / 9%);
+  --color-accent: #34d399;
+  --color-accent-strong: #10b981;
+  --color-accent-contrast: #022c22;
+  --color-accent-soft: rgb(16 185 129 / 16%);
+  --color-positive: #4ade80;
+  --color-negative: #fb7185;
+  --color-focus: #6ee7b7;
+  --color-nav-bg: rgb(8 22 17 / 88%);
+  --shadow-card: 0 10px 30px rgb(0 0 0 / 40%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f2f8f5;
+  --color-bg-glow: rgb(16 185 129 / 12%);
   --color-surface: #ffffff;
-  --color-surface-muted: #eef1f4;
-  --color-text: #17202a;
-  --color-text-muted: #4f5b67;
-  --color-border: #d5dbe1;
-  --color-accent: #1f6f5c;
+  --color-surface-strong: #ffffff;
+  --color-surface-muted: #e3f1ea;
+  --color-hero-from: #047857;
+  --color-hero-to: #064e3b;
+  --color-text: #0b2018;
+  --color-text-muted: #4b6359;
+  --color-border: #d3e6dd;
+  --color-accent: #047857;
+  --color-accent-strong: #047857;
   --color-accent-contrast: #ffffff;
-  --color-accent-soft: #dcefe9;
-  --color-focus: #1a56db;
+  --color-accent-soft: #dcf3e8;
+  --color-positive: #15803d;
+  --color-negative: #be123c;
+  --color-focus: #065f46;
+  --color-nav-bg: rgb(255 255 255 / 92%);
+  --shadow-card: 0 6px 20px rgb(6 78 59 / 10%);
+}
 
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] {
+    color-scheme: light;
+
+    --color-bg: #f2f8f5;
+    --color-bg-glow: rgb(16 185 129 / 12%);
+    --color-surface: #ffffff;
+    --color-surface-strong: #ffffff;
+    --color-surface-muted: #e3f1ea;
+    --color-hero-from: #047857;
+    --color-hero-to: #064e3b;
+    --color-text: #0b2018;
+    --color-text-muted: #4b6359;
+    --color-border: #d3e6dd;
+    --color-accent: #047857;
+    --color-accent-strong: #047857;
+    --color-accent-contrast: #ffffff;
+    --color-accent-soft: #dcf3e8;
+    --color-positive: #15803d;
+    --color-negative: #be123c;
+    --color-focus: #065f46;
+    --color-nav-bg: rgb(255 255 255 / 92%);
+    --shadow-card: 0 6px 20px rgb(6 78 59 / 10%);
+  }
+}
+
+:root {
   --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.25rem;
-  --font-size-xl: 1.625rem;
+  --font-size-xl: 1.75rem;
+  --font-size-amount: 2.25rem;
   --line-height: 1.5;
 
   --space-1: 0.25rem;
@@ -27,28 +95,14 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
 
-  --radius-sm: 0.5rem;
-  --radius-md: 0.875rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-pill: 999px;
 
   --touch-target: 2.75rem;
-  --nav-height: 4rem;
+  --nav-height: 4.25rem;
   --sidebar-width: 15rem;
   --content-max-width: 44rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #10151b;
-    --color-surface: #182029;
-    --color-surface-muted: #212b36;
-    --color-text: #e8edf2;
-    --color-text-muted: #a9b4bf;
-    --color-border: #33404d;
-    --color-accent: #5cc4a8;
-    --color-accent-contrast: #0b1f19;
-    --color-accent-soft: #1d3a33;
-    --color-focus: #8ab4ff;
-  }
 }
 
 *,
@@ -60,11 +114,16 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--color-bg);
 }
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  min-height: 100dvh;
+  background:
+    radial-gradient(60rem 30rem at 50% -10rem, var(--color-bg-glow), transparent 70%),
+    var(--color-bg);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-family);
   font-size: var(--font-size-md);

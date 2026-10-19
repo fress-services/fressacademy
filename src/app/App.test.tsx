@@ -1,11 +1,11 @@
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { renderApp } from '../test/renderApp';
 
 describe('navigation principale', () => {
-  it('affiche les 5 onglets et l’accueil par défaut', () => {
-    renderApp('/');
+  it('affiche les 5 onglets et l’accueil par défaut', async () => {
+    await renderApp('/');
     const nav = screen.getByRole('navigation', { name: 'Navigation principale' });
     const links = within(nav).getAllByRole('link');
     expect(links.map((link) => link.textContent)).toEqual([
@@ -20,12 +20,12 @@ describe('navigation principale', () => {
       'page',
     );
     expect(screen.getByRole('heading', { level: 1, name: 'Accueil' })).toBeInTheDocument();
-    expect(document.title).toBe('Accueil · Kolo');
+    await waitFor(() => expect(document.title).toBe('Accueil · Kolo'));
   });
 
   it('change de page et met à jour l’onglet actif', async () => {
     const user = userEvent.setup();
-    renderApp('/');
+    await renderApp('/');
     const nav = screen.getByRole('navigation', { name: 'Navigation principale' });
 
     for (const name of ['Activité', 'Budget', 'Dettes', 'Plus']) {
@@ -35,7 +35,7 @@ describe('navigation principale', () => {
     }
   });
 
-  it('chaque onglet affiche un état vide explicatif', () => {
+  it('chaque onglet affiche un état vide explicatif', async () => {
     const cases: [string, string][] = [
       ['/', 'Bienvenue sur Kolo'],
       ['/activity', 'Aucune opération pour l’instant'],
@@ -43,7 +43,7 @@ describe('navigation principale', () => {
       ['/debts', 'Rien à récupérer'],
     ];
     for (const [path, title] of cases) {
-      const { unmount } = renderApp(path);
+      const { unmount } = await renderApp(path);
       expect(screen.getByRole('heading', { level: 2, name: title })).toBeInTheDocument();
       unmount();
     }
@@ -51,14 +51,14 @@ describe('navigation principale', () => {
 
   it('affiche une page introuvable avec un lien vers l’accueil', async () => {
     const user = userEvent.setup();
-    renderApp('/nimporte-quoi');
+    await renderApp('/nimporte-quoi');
     expect(screen.getByRole('heading', { level: 1, name: 'Page introuvable' })).toBeInTheDocument();
     await user.click(screen.getByRole('link', { name: 'Revenir à l’accueil' }));
     expect(screen.getByRole('heading', { level: 1, name: 'Accueil' })).toBeInTheDocument();
   });
 
-  it('propose un lien d’évitement vers le contenu', () => {
-    renderApp('/');
+  it('propose un lien d’évitement vers le contenu', async () => {
+    await renderApp('/');
     expect(screen.getByRole('link', { name: 'Aller au contenu' })).toHaveAttribute('href', '#main');
   });
 });
@@ -66,21 +66,21 @@ describe('navigation principale', () => {
 describe('langue', () => {
   it('passe de français à anglais depuis les paramètres', async () => {
     const user = userEvent.setup();
-    renderApp('/more/settings', 'fr');
+    await renderApp('/more/settings', { language: 'fr' });
     expect(document.documentElement.lang).toBe('fr');
 
     await user.click(screen.getByRole('radio', { name: 'English' }));
 
-    expect(screen.getByRole('heading', { level: 1, name: 'Settings' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: 'Settings' })).toBeInTheDocument();
     const nav = screen.getByRole('navigation', { name: 'Main navigation' });
     expect(within(nav).getByRole('link', { name: 'Home' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'English' })).toBeChecked();
     expect(document.documentElement.lang).toBe('en');
-    expect(document.title).toBe('Settings · Kolo');
+    await waitFor(() => expect(document.title).toBe('Settings · Kolo'));
   });
 
-  it('affiche l’anglais quand c’est la langue initiale', () => {
-    renderApp('/budget', 'en');
+  it('affiche l’anglais quand c’est la langue initiale', async () => {
+    await renderApp('/budget', { language: 'en' });
     expect(screen.getByRole('heading', { level: 1, name: 'Budget' })).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { level: 2, name: 'No spending limit' }),
@@ -91,7 +91,7 @@ describe('langue', () => {
 describe('dettes', () => {
   it('bascule entre « À récupérer » et « À rembourser » à la souris et au clavier', async () => {
     const user = userEvent.setup();
-    renderApp('/debts');
+    await renderApp('/debts');
     const receivable = screen.getByRole('tab', { name: 'À récupérer' });
     const payable = screen.getByRole('tab', { name: 'À rembourser' });
     expect(receivable).toHaveAttribute('aria-selected', 'true');
@@ -113,7 +113,7 @@ describe('dettes', () => {
 describe('plus', () => {
   it('donne accès aux paramètres et à l’explication sur les données', async () => {
     const user = userEvent.setup();
-    renderApp('/more');
+    await renderApp('/more');
     await user.click(screen.getByRole('link', { name: /Vos données/ }));
     expect(screen.getByRole('heading', { level: 1, name: 'Vos données' })).toBeInTheDocument();
     expect(screen.getByText(/sauf si vous en avez exporté une sauvegarde/)).toBeInTheDocument();
