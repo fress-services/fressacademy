@@ -26,7 +26,8 @@ test('aucune violation de la politique de sécurité ni erreur dans la console',
   await page.getByLabel('Montant').fill('1');
   await page.getByLabel('Libellé').fill('<img src=x onerror=alert(1)>');
   await page.getByRole('button', { name: 'Enregistrer' }).click();
-  await page.goto('/activity');
+  // Après l'enregistrement, Kolo revient sur l'activité : attendre ce retour plutôt que naviguer.
+  await expect(page).toHaveURL(/\/activity$/);
   await expect(page.getByText('<img src=x onerror=alert(1)>')).toBeVisible();
   expect(await page.locator('img[src="x"]').count()).toBe(0);
 
